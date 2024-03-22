@@ -1,0 +1,123 @@
+body{
+    --culoareFundal:#F09C22;
+    --culoareFundal2:#B08545;
+    --culoareComplementF:#2297F0;
+    --culoareAccente1:#49789B;
+    --culoareAccente2:#706048;
+}
+
+
+html {
+    font-size: 18px;  
+    font-family: "Coustard", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/*pentru obiecte care depasesc gridul*/
+
+
+
+#grid-pagina{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4,1fr) /*1fr 1fr 1fr*/ ;
+    grid-template-areas:    "welcome welcome welcome welcome"
+                            "utilizatori promotii promotii date"
+                            "evenimente evenimente orar orar"
+                            "anunturi anunturi orar orar"
+                            "parteneri parteneri parteneri parteneri"
+                            ;
+}
+
+#grid-pagina>*{
+    outline: 2px solid var(--culoareFundal);
+    padding: 1em;
+}
+
+#welcome{
+    grid-area: welcome;
+}
+#promotii{
+    grid-area: promotii;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#orar{
+    grid-area: orar;
+}
+ 
+#evenimente{
+    grid-area: evenimente;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#utilizatori{
+    grid-area: utilizatori;
+}
+#date{
+    grid-area: date;
+}
+#parteneri{
+    grid-area: parteneri;
+}
+
+.intro-oferte {
+    font-size: 1.5rem;
+}
+.farfurie{
+    width: 1.5rem;
+}
+
+@media screen and (max-width:1200px) {
+    html {
+        font-size: 15px;  
+    }
+    #grid-pagina{
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(2,1fr) /*1fr 1fr 1fr*/ ;
+        grid-template-areas:    "welcome welcome "
+                                "utilizatori date"
+                                "promotii promotii"
+                                "orar orar"
+                                "anunturi evenimente"
+                                "parteneri parteneri "
+                                ;
+    }
+    
+}
+
+@media screen and (max-width:800px) {
+    html {
+        font-size: 12px;  
+    }
+    #grid-pagina{
+        gap: 5px;
+        display: block;
+    }
+    
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
