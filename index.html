@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<!--comentariu-->
+<html lang="ro">
+    <head>
+        <!--<link rel="stylesheet" href="Resurse/css/Reset.css" >-->
+        <title>Magazin mobila</title>
+        <meta charset="UTF-8"><!-- codificarea în memorie a caracterelor-->
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"><!-- va fi explicat când ajungem la CSS -->
+        <meta name="keywords" content="mobila, magazin, Romania, Bucurest, asamblare, asamblare la 
+        livrare, livrare, reduceri,buna,ieftin, oferte,online">
+        <!--cuvintele cheie ale paginii; majoritatea motoarelor de căutare ignoră keywords -->
+        <meta name="description" content="Magazin mobila.Site pe care se vinde mobila la domiciliu cu asamblare"><!-- descrierea paginii, adesea apare sub link când sunt afișate rezultatele căutării -->
+        <meta name="author" content="Colt Sebastina">  <!-- autorul/autoarea paginii-->
+        <link rel="apple-touch-icon" sizes="180x180" href="./Resurse/imagini/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="./Resurse/imagini/favicon/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="./Resurse/imagini/favicon/favicon-16x16.png">
+        <link rel="manifest" href="./Resurse/imagini/favicon/site.webmanifest">
+        <link rel="mask-icon" href="./Resurse/imagini/favicon/safari-pinned-tab.svg" color="#d1a978">
+        <link rel="shortcut icon" href="./Resurse/imagini/favicon/favicon.ico">
+        <meta name="msapplication-TileColor" content="#ceb591">
+        <meta name="msapplication-config" content="./Resurse/imagini/favicon/browserconfig.xml">
+        <meta name="theme-color" content="#8c8484">
+    <!--My css-->
+        <link rel="stylesheet" href="Resurse/css/stil.css" type="text/css"/>
+        <!--<style>
+            p{
+                color: red;
+            }
+    </style>-->
+        <link rel="stylesheet" href="Resurse/css/layout.css" type="text/css"/>
+        <link rel="stylesheet" href="Resurse/css/general.css" type="text/css"/>
+    <!--Font-->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Coustard:wght@400;900&family=Madimi+One&family=Schoolbell&display=swap" rel="stylesheet">
+    <!--Iconuri-->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" />
+
+        <link rel="stylesheet" href="Resurse/css/nav.css" type="text/css"/>
+        
+        <link rel="stylesheet" href="Resurse/css/nav1000.css" type="text/css" media="screen and (max-width:1000px)"/>
+        
+        <link rel="stylesheet" href="Resurse/css/nav700.css" type="text/css" media="screen and (max-width:700px)"/>
+    </head>
+
+    <body>
+        <header class="inset">
+            <h1><b>Magazin mobila</b></h1>
+            <img src="./Resurse/imagini/favicon/couch-2027234_1280.png" alt="sigla" width="160" height="100">
+            <nav>
+                <ul class="meniu">            
+                    <li> <div id="acasa">Acasa</div>
+                        <ul>                      
+                            <li><a href="#welcome">Welcome</a></li>
+                            <li><a href="#promotii">Promotii</a></li>
+                            <li><a href="#anunturi">Anunturi</a></li>
+                            <li><a href="#orar">Orar</a></li>  
+                            <li><a href="#evenimente">Evenimente</a></li> 
+                            <li><a href="#utilizatori">Utilizatori</a></li> 
+                            <li><a href="#date">Date</a></li> 
+                            <li><a href="#parteneri">Parteneri</a></li>   
+                        </ul>                 
+                    <!--</li>
+                    <li>Produse
+                    </li> -->               
+                </ul> 
+            </nav>
+        </header>
+        <main class="ridge">
+            <div id="grid-pagina">   
+                <!--Prima sectiu pentru primire utilizatorilor-->
+                <section id="welcome">
+                    <h2>Bine ati venit</h2>
+                    <p>Magazinul tau online preferat de <b>mobila</b> este aici. Noi iti livram si <b>asamblam</b> mobila ta.</p>
+                    <section id="imagine">
+                        <div id="prezentare">
+                            <figure>
+                                <picture>
+                                    <source srcset="./Resurse/imagini/livingroom_640.jpg" media="(max-width:1000px)">
+                                    <source srcset="./Resurse/imagini/livingroom_1280.jpg" media="(max-width:1400px)" title="mobila" >
+                                    <img src="./Resurse/imagini/livingroom_1920.jpg" alt="next" title="mobila" >
+                                </picture>
+                                <figcaption>Idei pentru sufrageria ta</figcaption>
+                            </figure>
+                        </div>
+                    </section>
+                </section>
+                <section id="orar">
+                    <h2>Orar</h2>
+                    <div id="ctab">
+                        <table id="tab-orar">
+                            <caption><i class="fa-solid fa-circle-arrow-down fa-bounce"></i>Dedesupt este orarul<i class="fa-solid fa-circle-arrow-down fa-bounce"></i></caption>
+                            <thead if="tab-h">
+        
+                                <tr>
+                                    <th>Zi</th>
+                                    <th>Interval dimineata</th>
+                                    <th>Pauza de masa</th>
+                                    <th>Interval seară</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+
+                                    <td>Luni</td>
+                                    <td>10-12</td>
+                                    <td>12-14</td>
+                                    <td>14-20</td>
+                                </tr>
+                                <tr>
+
+                                    
+                                    <td>Marti</td>
+                                    <td>9-12</td>
+                                    <td>12-14</td>
+                                    <td>14-21</td>
+                                </tr>
+                                <tr>
+    
+                                    
+                                    <td>Miercuri</td>
+                                    <td>9-11</td>
+                                    <td>11-13</td>
+                                    <td>14-21</td>
+                                </tr>
+                                <tr>
+                
+                                    
+                                    <td>Joi</td>
+                                    <td>9-11</td>
+                                    <td>11-13</td>
+                                    <td>14-21</td>
+                                </tr>
+                                <tr>
+                
+                                    
+                                    <td>Vineri</td>
+                                    <td>9-12</td>
+                                    <td>12-14</td>
+                                    <td>14-19</td>
+                                </tr>
+                                <tr>
+                    
+                                    <td>Sambata</td>
+                                    <td>10-12</td>
+                                    <td>12-13</td>
+                                    <td>13-16</td>
+                                </tr>
+                                <tr>
+                    
+                                    <td>Duminica</td>
+                                    <td>10-14</td>
+                                    <td>-</td>
+                                    <td>inchis</td>
+                                </tr>
+                            </tbody>
+                            <tfoot><tr><td colspan="6">Închis cu ocazia sărbătorilor legale sau când ne e mai lene așa.</td></tr></tfoot>
+                        </table> 
+                    </div>
+                </section>
+                <!--PROMOTII-->
+                <section id="promotii">
+                    <h2>Promotii</h2>
+                    <p>
+                        <strong><abbr title="Sfat">Nu ratati promotiile noastre de astazi</abbr></strong>
+                    </p>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="inline">
+                        <mtext>Calcul pret cu reducere:</mtext>
+                        <mspace width="0.5em" ></mspace>
+                        <mrow>
+                        <mi>pret</mi>
+                        <mo>-</mo> <mfrac>
+                                        <mrow>
+                                        <mi>pret</mi>
+                                        <mo>*</mo>
+                                        <mi>reducere</mi>
+                                        </mrow>
+                                        <mn>100</mn>
+                                    </mfrac>
+                        <mo>=</mo><mi>pret final</mi>
+                        </mrow>
+                        
+                    </math>
+                    <p>Promotii limitate numai azi de peste <s>25%</s> <ins>50%</ins> la toata <b>mobila pentru dormitor</b>.</p>
+                    <a href="./Resurse/imagini/bed.jfif" download="patul la reducere">
+                        <img src="./Resurse/imagini/bed.jfif" alt="W3Schools">
+                    </a>
+                    <details>
+                        <summary>Detalii</summary>
+                        <p>Pat de 2 persoane din lemn de stejar si saltea cadou.</p>
+                        <h3>Link pentru mai multe detalii</h3>
+                        <p>Acici poti vedea 
+                        <a href="https://www.mobilakoncept.ro/" target="_blank">Parteneri</a>
+                        nostri locali</p>
+                    </details>
+                    <details>
+                        <summary>Galerie</summary>
+                        <p>Mai multe poze cu produsul prezentat</p>
+                    </details>
+                </section>
+                <section id="evenimente">
+                    <h2>Evenimente organizate de noi</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce felis leo, tempus quis tellus vel, mollis lobortis tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Aliquam porta augue ut massa lacinia, pharetra eleifend elit condimentum. Morbi consectetur ullamcorper arcu, eget sagittis ante rutrum ac. Suspendisse sodales nibh leo, in porta urna rutrum id. Aliquam erat volutpat. Fusce laoreet elit vitae efficitur bibendum. Duis blandit egestas leo, vel maximus dolor eleifend ac. Ut nisl ligula, eleifend pulvinar consequat nec, porta at lacus. Aenean dapibus enim ac vulputate varius. Phasellus at arcu fermentum, posuere dui nec, posuere neque. Maecenas viverra diam luctus fermentum bibendum. Quisque ut auctor nunc.</p>
+                </section>
+                <section id="anunturi">
+                    <h2>Anunturi speciale</h2>
+                    <p>Morbi rhoncus massa purus, a viverra dui viverra sit amet. Nullam faucibus consectetur mauris ac maximus. Morbi malesuada at est quis porta. Proin laoreet sapien aliquam turpis tincidunt, a laoreet lacus vehicula. Aenean ultricies mattis urna nec pulvinar. Vivamus fringilla elementum lectus, nec fringilla purus mattis eu. Suspendisse potenti. Sed rhoncus tellus ut purus sollicitudin, id tempor orci varius. Fusce cursus ante sed pharetra mattis. Sed hendrerit velit lorem, id mattis purus bibendum id. Cras pharetra tristique orci sed tincidunt. Sed in orci non erat elementum dictum.</p>
+                </section>
+                <section id="utilizatori">
+                    <h2>Utilizatori</h2>
+                    <p>Duis in interdum nisi, gravida elementum ante. Aenean tortor risus, ornare eu mollis vitae, feugiat et augue. Nunc efficitur nibh eget turpis condimentum, eu luctus nisl luctus. Integer id quam elit. Mauris ut tempus dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum pellentesque malesuada efficitur. Suspendisse potenti.</p>
+                </section>
+                <section id="date">
+                    <h2>Date server</h2>
+                    <p>Vestibulum orci nulla, sagittis a feugiat at, molestie a enim. Aenean vitae tincidunt magna. Morbi tempus porttitor est, eu egestas dui laoreet et. Phasellus a pretium tellus. In condimentum, quam ut molestie dictum, arcu metus vestibulum sem, eget auctor elit metus sed dui. Pellentesque ac cursus lectus, non venenatis nisi. Pellentesque convallis quam vel purus iaculis mollis. Morbi neque neque, convallis sed eros in, laoreet semper mi. Nunc porta eget mauris et posuere. Etiam justo justo, facilisis in aliquam ac, dignissim nec enim. Curabitur mi dui, euismod quis neque sit amet, suscipit iaculis lorem. Maecenas id arcu non velit pellentesque ullamcorper eu placerat felis. Nam quis ante eget leo fermentum tincidunt at quis urna. Mauris consequat venenatis augue dictum blandit. Morbi porttitor, purus quis fringilla dictum, ligula metus egestas tortor, quis finibus ipsum tortor ut dolor.</p>
+                </section>
+                <!--PARTENERIATE -->
+                <section id="parteneri">
+                    <h2>Parteneri nostri</h2>
+                    <div class="container-iframe">  
+                        <div class="taburi-iframe" >             
+                            <a href="https://www.youtube.com/embed/pIl_QrlzGto?si=NViSf4wmbse4Kv4I" target="iframeuri">Sufragerie</a>
+                            <a href="https://www.youtube.com/embed/y5BiNp7Gmxw?si=ytOtvopKCUrcxDgx" target="iframeuri">Bucatarie</a>
+                            <a href="https://www.youtube.com/embed/RVqUL9edlAk?si=A2BzJPvhsQd0k26I" target="iframeuri">Dormitor</a>
+                        </div>
+
+                        <iframe  name="iframeuri" width="560" height="315" src="https://www.youtube.com/embed/y5BiNp7Gmxw?si=ytOtvopKCUrcxDgx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> 
+                    </div>
+                    </section>
+        
+            </div>
+        </main>
+        <footer class="outset">
+            <section id="maps">
+                <figure>
+                    <figcaption>Locatie unde ne poti gasi sediul</figcaption>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d38360.473995899345!2d26.11975478665598!3d44.38885180341282!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40b1fe60f7449097%3A0xe4046c28213d373c!2zUGFyY3VsIE5hdHVyYWwgVsSDY8SDcmXImXRp!5e0!3m2!1sro!2sro!4v1709638118235!5m2!1sro!2sro" width="400" height="400" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </figure>
+            </section>
+            <p><a href="mailto:mobila@gmail.ro">Mail Mobila<i class="fa-solid fa-square-envelope"></i></a></p>
+            <p><a href="tel:0770494167">Telefon<i class="fa-solid fa-phone fa-shake"></i></a></p>
+            <p><a href="https://wa.me/0770494167">WhatsApp<i class="fa-brands fa-whatsapp fa-shake"></i></a></p>
+            <p><small>Copyright &copy;<time datetime="2024-10-18">18  martie 2024</time> Ionel Popescu</small></p>
+            <a href="#" title="mergi sus" id="link-top"><div id="triunghi"></div></a><!--link-top exemplelayout-->
+        </footer>
+     
+    </body>
+
+</html>
