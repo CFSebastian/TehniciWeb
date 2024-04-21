@@ -192,34 +192,45 @@
                           </video>
                     <hr>
                     </div>
-                        <section id="galerie-statica"> 
-                            <h2>Galerie</h2>    
-                                <div id="grid-galerie">
+                    <section id="galerie-statica">
+                        <h2>Galerie</h2>
+                            <div id="grid-galerie">
                                     <% 
-                                        /*var vZile = ["luni", "marti", "miercuri", "joi", "vineri", "sambata", "duminica"];
-                                        var d = new Date();
-                                        var ziuaCurenta = d.getDay();
-                                        console.log(ziuaCurenta);
-                                        for (let imag of locals.imagini) {
+                                    vZile=["duminica","luni", "marti", "miercuri", "joi", "vineri", "sambata"];
+                                    var d= new Date();
+                                    var ziCurenta =d.getDay();
+                                    console.log(vZile[ziCurenta]);
+                                    let ok=1;
+                                    for(let imag of locals.imagini){
+                                        for(let intZile of imag.intervale_zile) {
+                                            console.log(intZile.length,intZile[0],intZile[1]);
+                                            
+                                        }
+                                        if (imag.intervale_zile && imag.intervale_zile.length >= 2) {
                                             intervalStart =  vZile.indexOf(imag.intervale_zile[0][0]);
                                             intervalEnd = vZile.indexOf(imag.intervale_zile[0][1]);
+        
                                             intervalStartWeekend =  vZile.indexOf(imag.intervale_zile[1][0]);
+                                            
                                             intervalEndWeekend = vZile.indexOf(imag.intervale_zile[1][1]);
-                                            if((ziuaCurenta >= intervalStart && ziuaCurenta <= intervalEnd) || (ziuaCurenta >= intervalStartWeekend && ziuaCurenta <= intervalEndWeekend) ){ */%>     
-                                        <figure>  
-                                            <picture>
-                                
-                                                <source srcset="<%= //imag.fisier_mediu %>" media="(max-width:1400px)" title="mobila" >
-                                                <source srcset="<%=// imag.fisier_mic %>" media="(max-width:900px)" title="mobila" >
-                                                <img src="<%= //imag.fisier_imagine %>" alt="next" title="mobila" >
-
-                                            </picture>    
-                                                    
-                                            <figcaption><%= //imag.nume_poza %></figcaption>   
-                                        </figure>   
-                                    <%/*} } */%>         
-                                </div>  
-                        </section>
+                                            
+        
+                                            if((ziCurenta >= intervalStart && ziCurenta <= intervalEnd) || (ziCurenta >= intervalStartWeekend && ziCurenta <= intervalEndWeekend) ){
+                                                console.log(imag.intervale_zile.length);
+                                         %>  
+                                            <figure>
+                                                <picture>
+                                                    <source srcset="<%= imag.fisier_mic %>" media="(max-width:700px)"/>
+                                                    <source srcset="<%= imag.fisier_mediu %>" media="(max-width:1200px)"/>
+                                                    <img src="<%= imag.fisier_imagine %>" alt="briose">
+                                                </picture>
+                                                <figcaption><%= imag.descriere_poza%></figcaption>
+                                            </figure>
+                                            <% } }%>
+                                        <% } %>
+                                    
+                            </div>
+                    </section>
                 </section>
         
             </div>
