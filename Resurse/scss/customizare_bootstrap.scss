@@ -1,0 +1,18 @@
+@use '../../node_modules/bootstrap/scss/bootstrap.scss' with 
+(
+    $primary: #F09C22,
+    $secondary:#2297F0,
+    $font-family-base: "Coustard",
+     $body-color: black, // Textul va fi alb
+    $headings-color: #2297F0, // Headingurile vor fi galbene
+    $h1-font-size: 2.5rem, // Dimensiunea literelor pentru h1
+    $h2-font-size: 2rem, // Dimensiunea literelor pentru h2
+    $border-radius: 8px,
+    $container-max-widths: (
+        md: 768px,
+        lg: 992px,
+    ),
+    $border-width: 4px,
+    $border-color: #2297F0,
+    $border-color-translucent: #2297F0
+);
