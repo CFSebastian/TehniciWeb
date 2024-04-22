@@ -1,0 +1,187 @@
+body{
+  --culoareFundal:#F09C22;
+  --culoareFundal2:#B08545;
+  --culoareComplementF:#2297F0;
+  --culoareAccente1:#49789B;
+  --culoareAccente2:#706048;
+  --dimSpatiere:120px;
+  padding-left: var(--dimSpatiere);
+  padding-right: var(--dimSpatiere);
+}
+
+
+/*=====buton mergi sus===============*/
+#link-top{
+    position:fixed;
+    bottom:0.3em;
+    opacity:0.5;
+    left:0.3em;
+    width:4rem;
+    box-sizing: border-box;
+    height:3rem;
+    line-height:3rem;
+    text-align:center;
+    border:5px solid ;
+      border-right-color:var(--culoareComplementF);
+      border-left-color: var(--culoareComplementF);
+      border-top-color: transparent;
+      border-bottom-color: transparent;
+      
+    border-radius:50%;
+    background: rgba(220, 220, 220, 0);
+    transition: all 1s linear/*transform 1s linear, opacity 3s linear*/;
+    border-top-width: thin;
+    border-bottom-width: thin;
+  }
+#link-top:hover{
+    opacity:1;
+    
+  }
+#triunghi{
+    height:0px;
+    width:0;
+    display:inline-block;
+    border-bottom:1.5rem solid var(--culoareComplementF);
+    border-left:1rem solid transparent;
+    border-right:1rem solid transparent;
+    transform: translateY(25%);
+    transition: all 1s linear;
+    
+}
+#triunghi:hover{
+    transform: translateY(-30%);
+    border-bottom: 1.5rem solid var(--culoareFundal);
+
+}
+/*==============overflow grid================*/
+section {
+  overflow: auto;
+}
+/*============ stilizare tabel orar==============*/
+table {
+  text-align: center;
+  
+}
+#tab-orar {
+  width: 100%;
+  border: 5px solid;
+  border-style: inset;
+  border-collapse: collapse;
+}
+#tab-orar td, #tab-orar th{
+    border: 1px solid;
+    /*width: 100%;*/
+}
+#tab-orar td,#tab-orar th{
+  transition: all 0.5s linear;
+}
+#tab-orar tr:nth-child(odd)>th{
+  border-color: gray;
+  border-top-color: var(--culoareFundal2);
+  border-bottom-color: var(--culoareAccente1);
+}
+
+#tab-orar tr:nth-child(2n+1)>td{
+  border-color: gray;
+    border-top-color: var(--culoareAccente1);
+    border-bottom-color: var(--culoareFundal2);
+}
+
+#tab-orar tr:nth-child(even)>td{
+  border-color: #706048;
+  border-top-color: var(--culoareFundal2);
+  border-bottom-color: var(--culoareAccente1);
+  
+}
+#tab-orar td:hover,#tab-orar th:hover{
+  border-width: 5px;
+  border-color: transparent;
+}
+/*====================stilizare linkuri=====================*/
+a {
+  color: var(--culoareComplementF);
+  position: relative;
+  text-decoration: none;
+}
+a:visited{
+  color: var(--culoareComplementF);
+}
+a:active{
+ border: 5px solid var(--culoareComplementF);
+}
+
+a {
+  background-image: radial-gradient(ellipse at center, var(--culoareAccente1) 0%, var(--culoareAccente1) 40%, transparent 80%, transparent 100%);
+  background-repeat: no-repeat;
+  background-size: 0% 0%;
+  background-position: center;
+  transition: background-size 2s ease;
+ 
+}
+a:hover {
+  background-size: 80% 80%; /* Final size of the oval */
+}
+
+
+a[href^="http"]::before{
+  content: "\2BB3";
+  font-size: 200%;
+
+}
+a[href^="http"]:hover:before{
+  content: "\2BB3";
+  color: var(--culoareFundal2);
+}
+
+#titluU{
+ 
+	position:absolute;
+	left:0;
+	top:100%;
+	transform-origin:0 0;
+	/*conetaza ordinea transformarilor!*/
+	transform:  rotateX(180deg) skew(-45deg) scaleY(0.5) translate(10px,-35px); 
+	opacity:0.55;
+  filter: blur(5px);
+  transition: transform 2s linear;
+}
+
+#titlu{	
+	position:relative;
+}
+
+#titlu, #titluU{
+	font-size:50px;
+	line-height:50px;
+	font-weight: bold;
+}
+#titlu:hover>#titluU{	
+  transform:  rotateX(180deg) skew(-45deg) scaleY(0.75) translate(10px,-35px); 
+}
+hr {
+  background-image: 
+    
+    radial-gradient(circle at 18% 68%,transparent 10%, var(--culoareAccente2) 10%, transparent 24%),
+    radial-gradient(circle at 50% 50%,transparent 10%, var(--culoareComplementF) 20%, transparent 42%),
+    radial-gradient(circle at 75% 34%,transparent 10%, var(--culoareFundal) 15%, transparent 26%);
+  background-size: 30px 30px; /* Ajustați dimensiunea cercurilor după preferințe */
+  background-position: center;
+  mask-image: linear-gradient(to bottom, transparent, black, transparent);
+  display: block;
+  border-color: transparent;
+  height: 25px;
+  text-align: left;
+  width: 130%;
+  margin-left: 0;
+  opacity: 100%;
+}
+
+/*===========corectare bootstrap=======*/
+table {
+  caption-side: top;
+  
+}
+caption {
+ 
+  text-align: center;
+}

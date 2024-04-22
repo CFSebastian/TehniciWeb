@@ -1,0 +1,110 @@
+/*facem vizibil iconul de hamburger meniu*/
+body{
+    --culoareFundal:#F09C22;
+    --culoareFundal2:#B08545;
+    --culoareComplementF:#2297F0;
+    --culoareAccente1:#49789B;
+    --culoareAccente2:#706048;
+    --culoare-text:black;
+    --culoare-text-selectat:white;
+
+
+}
+#hamburger{
+    display:block;
+}
+
+#hamburger>img{
+    height:var(--inaltime-meniu);
+    display: block;
+}
+/* implicit meniul e ascuns*/
+ul.meniu{
+    display:none;
+    position:absolute;
+    width:100%;
+    
+}
+
+/*aici facem vizibil meniul cand faem click pe hamburger meniu*/
+#ch-menu:checked+ul.meniu{
+    display: block;
+    z-index: 2;
+    position: relative;
+    transform-origin: left;
+    animation-name: aparitie_meniu_p;
+    animation-iteration-count:1;
+    animation-duration:0.7s;
+    animation-fill-mode:forwards;
+    animation-timing-function:ease-in;
+    
+   
+    
+}
+@keyframes aparitie_meniu_p {
+  0%{
+    clip-path: polygon(0% 0%, 0% 0%, 20% 50%, 0% 100%, 0% 100%);
+  }
+  99%{
+    clip-path:polygon(0% 0%, 101% 0%, 126% 51%, 101% 101%, 0% 100%);
+  }
+  100%{
+    clip-path: none;
+    
+  }
+}
+/*submeniu cu animatie*/
+#ch-menu:checked+ul.meniu>li>div,#ch-menu:checked+ul.meniu>li>a{
+    
+    z-index: 2;
+    position: relative;
+    transform-origin: 50% 50%;
+    animation-name: aparitie_meniu_p_btn;
+    animation-iteration-count:1;
+    animation-duration:0.7s;
+    animation-fill-mode:forwards;
+    animation-timing-function:linear;
+    
+}
+/*optiunile se intind pe toata latimea containerului*/
+nav ul.meniu li{
+    background-color: var(--culoareAccente2);
+    width:100%;
+}
+
+/*meniul sa vina deasupra continutul de mai jos, fara sa impinga continutul*/
+nav ul.meniu>li ul{
+
+    position:absolute;
+    width:100%;
+    z-index:200;
+    transform:scale(1,1) !important;
+    opacity: 1 !important;
+}
+
+#ch-menu:checked+ul.meniu>li>ul>*{
+    
+    position:relative;
+    z-index:200;
+}
+nav ul.meniu>li:hover>ul{
+    
+    z-index:200;
+    animation:none;
+}
+/* pentru fiecare element din submeniu generam un triunghiulet alb inaintea lui*/
+nav ul.meniu>li li a:before{
+    content:" \25B7\00A0	";
+    color:white;
+
+}
+
+
+@keyframes aparitie_meniu_p_btn{
+    0%{
+        transform:scale(0,0);
+    } 
+	100%{
+    	transform:scale(1,1);
+    }
+}

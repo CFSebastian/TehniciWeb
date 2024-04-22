@@ -1,0 +1,204 @@
+body{
+    --culoareFundal:#F09C22;
+    --culoareFundal2:#B08545;
+    --culoareComplementF:#2297F0;
+    --culoareAccente1:#49789B;
+    --culoareAccente2:#706048;
+}
+
+html {
+    font-size: 18px;  
+    font-family: "Coustard", serif !important;
+    font-weight: 400;
+    font-style: normal;
+}
+
+#grid-pagina{
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(4,1fr) /*1fr 1fr 1fr*/ ;
+    grid-template-areas:    "welcome welcome welcome welcome"
+                            "utilizatori promotii promotii date"
+                            "evenimente evenimente orar orar"
+                            "anunturi anunturi orar orar"
+                            "parteneri parteneri parteneri parteneri"
+                            ;
+}
+
+#grid-pagina>*{
+    outline: 2px solid var(--culoareFundal);
+    padding: 1em;
+}
+
+#welcome{
+    grid-area: welcome;
+}
+#promotii{
+    grid-area: promotii;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#orar{
+    grid-area: orar;
+}
+ 
+#evenimente{
+    grid-area: evenimente;
+}
+#anunturi{
+    grid-area: anunturi;
+}
+#utilizatori{
+    grid-area: utilizatori;
+}
+#date{
+    grid-area: date;
+}
+#parteneri{
+    grid-area: parteneri;
+}
+
+.intro-oferte {
+    font-size: 1.5rem;
+}
+.farfurie{
+    width: 1.5rem;
+}
+
+@media screen and (max-width:1200px) {
+    html {
+        font-size: 15px;  
+    }
+    #grid-pagina{
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat(2,1fr) /*1fr 1fr 1fr*/ ;
+        grid-template-areas:    "welcome welcome "
+                                "utilizatori date"
+                                "promotii promotii"
+                                "orar orar"
+                                "anunturi evenimente"
+                                "parteneri parteneri "
+                                ;
+    }
+    
+}
+
+@media screen and (max-width:800px) {
+    html {
+        font-size: 12px;  
+    }
+    #grid-pagina{
+        gap: 5px;
+        display: block;
+    }
+    
+}
+/*=========================Grid galerie============================*/
+#grid-galerie>figure>picture{
+    filter: sepia(100%);
+    transition: filter 800ms linear;
+}
+#grid-galerie>figure:hover>figcaption{
+    transition: all 800ms linear;
+}
+#grid-galerie>figure:hover>picture{
+    filter: sepia(0%);
+    
+}
+#grid-galerie>figure:hover>figcaption{
+    color: var(--culoareFundal);
+    text-shadow: 4px 4px 5px var(--culoareComplementF);
+}
+#grid-galerie {
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-row-gap:0.1rem !important;
+    grid-column-gap:0.1rem !important;
+    overflow:hidden;
+    counter-reset: nrimag 0;
+}
+#grid-galerie img{
+    width: 100% !important;
+  }
+#grid-galerie figcaption{
+    text-align:center;
+    counter-increment: nrimag 1;
+}
+#grid-galerie figcaption::before{
+    content: counter(nrimag, lower-roman) ")";
+}
+#grid-galerie>figure:nth-child(3){
+    grid-area: 2/1/3/2;
+}
+#grid-galerie>figure:nth-child(4){
+    grid-area: 2/3/3/4;
+}
+#grid-galerie>figure:nth-child(5){
+    grid-area: 3/2/4/3;
+}
+#grid-galerie>figure:nth-child(6){
+    grid-area: 3/3/3/4;
+}
+#grid-galerie>figure:nth-child(7){
+    grid-area: 4/3/5/4;
+}
+#grid-galerie>figure:nth-child(8){
+    grid-area: 4/1/5/2;
+}
+#grid-galerie>figure:nth-child(9){
+    grid-area: 5/1/6/2;
+}
+#grid-galerie>figure:nth-child(10){
+    grid-area: 5/2/6/3;
+}
+#grid-galerie>figure:nth-child(11){
+    grid-area: 6/1/7/2;
+}
+#grid-galerie>figure:nth-child(12){
+    grid-area: 6/3/7/4;
+}
+#grid-galerie>figure:nth-child(13){
+    grid-area: 7/2/8/3;
+}
+#grid-galerie>figure:nth-child(14){
+    grid-area: 7/3/8/4;
+}
+
+@media screen and (max-width:1200px) {
+    #grid-galerie {
+        grid-template-columns: repeat(2,1fr);
+        grid-row-gap:2px !important;
+        grid-column-gap:2px !important;
+        
+    }
+    #grid-galerie>figure{
+        grid-area: auto !important;
+    }
+
+}
+@media screen and (max-width:800px) {
+    #grid-galerie {
+        grid-template-columns: repeat(1,1fr);
+        grid-row-gap:1px !important;
+        grid-column-gap:1px !important;
+    }
+    #grid-galerie>figure{
+        grid-area: auto !important;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

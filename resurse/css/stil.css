@@ -1,0 +1,329 @@
+
+
+/*======================Format Pagina======================*/
+body{
+  --culoareFundal:#F09C22;
+  --culoareFundal2:#B08545;
+  --culoareComplementF:#2297F0;
+  --culoareAccente1:#49789B;
+  --culoareAccente2:#706048;
+  --dimSpatiere:120px;
+  padding-left: var(--dimSpatiere);
+  padding-right: var(--dimSpatiere);
+}
+
+p{
+  color: var(--culoareComplementF);
+  background-color: var(--culoareFundal);
+}
+
+h1{
+  border: 2.5mm solid var(--culoareFundal);
+}
+
+@media screen and (max-width:1200px) {
+  body{
+      padding-left: 70px;
+      padding-right: 70px;
+  }
+}
+
+@media screen and (max-width:640px) {
+  body{
+      padding-left: 25px;
+      padding-right: 25px;
+  }
+}
+#promotii img{
+  width: 750px;
+  height: 650px;
+}
+section img , source{
+  max-width: 100%; 
+  min-width: 200px; 
+  width: 70%; 
+  max-height: 100%;
+  min-height: 150px;
+  height: 70%;
+}
+
+@media only screen and (max-width: 1200px) {
+  section img , source{
+      max-width: 100%; 
+
+      width: 90%; 
+      max-height: 100%;
+ 
+      height: 90%;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  section img , source, iframe{
+      max-width: 100%; 
+
+      width: 60%; 
+      max-height: 100%;
+  
+      height: 60%;
+      
+  }
+  #maps iframe{
+      width: 700px;
+      height: 700px;
+  }
+ 
+}
+
+header.inset{
+  border-style: inset;
+  outline: 5px;
+}
+main.ridge{
+  border-style: ridge;
+  outline: 5px;
+}
+footer.outset{
+  border-style: outset;
+  outline: 5px;
+}
+
+p, h1,h2,h3 {
+  padding-top: 20px;
+  padding-right: 10px;
+  padding-bottom: 20px;
+  padding-left: 30px;
+}
+/*========================xerinta iframe buton========================*/
+.container-iframe {
+  display:flex;
+  flex-direction: column;
+  width: 30%;
+
+}
+.container-iframe iframe{
+  border: 5px solid var(--culoareAccente1);
+  
+}
+.taburi-iframe{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  
+  
+}
+.taburi-iframe>a{
+  text-decoration: none;
+  display: block;
+  border: 1px solid var(--culoareAccente1);
+  box-shadow: var(--culoareComplementF);
+  box-shadow: 0px 0px 5px 5px var(--culoareComplementF) ;
+  border-top-left-radius: 1em;
+  border-top-right-radius: 1em;
+  margin-left: 0.5em;
+  padding: 0.6em;
+  transition: all 0.5s linear;
+
+}
+.taburi-iframe>a:last-child{
+  margin-bottom: 0;   
+}
+.taburi-iframe>a:hover{
+
+  background-color: var(--culoareAccente1);
+
+}
+@media only screen and (max-width: 1800px) {
+  .container-iframe {
+      width: 70%;
+  }
+}
+/*=========================Math=================================*/
+math
+{
+  display: inline-block;
+  font-size: 30px; 
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+mtext {
+  font-size: 20px; 
+}
+
+
+
+mo {
+  color: green; 
+  font-weight: bold;
+}
+/*=========================== Printare====================================*/
+
+#watermark,#absolut{
+  display:none;
+}
+
+@media print {
+
+#absolut{
+  position: absolute;
+  display: block;
+  bottom: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+  width:70%;
+      border: 4px inset black;
+      text-align: center;
+  /*height:20px;
+  overflow: visible;*/
+}
+
+h1{
+  
+  margin-top: 50%;
+  text-align:center;
+  margin-left:1cm;
+      border:  none;
+}
+  header{
+      page-break-after: always;
+  }
+  footer{
+      page-break-before: always;
+  }
+  #link-top{
+      display: none;
+  }
+  img, iframe, picture, .taburi-iframe>a {
+      display: none;
+  }
+  /*=============Printare meniu========================*/
+ 
+
+  .meniu{
+      display: block !important;
+      list-style-type: circle !important;
+      padding-left: 100px !important;
+      background-color: red;
+     
+
+  }
+  
+  .meniu>li>div, .meniu>li>a{
+      list-style-type: circle !important;
+      text-align: left;
+      display: block;
+      width: auto;
+      height: auto;
+      cursor: none;
+      line-height: normal;
+      color: black;
+      text-decoration: none;
+      box-sizing: initial;
+      transition: none;
+      
+      
+  }
+
+  /*=============end  Printare meniu========================*/
+  a {
+      text-decoration: none !important;
+      color: black !important;
+    }
+  
+#grid-pagina{
+      
+  font-size: 10px;
+  box-sizing:border-box;
+  page-break-before:always;
+  background-color: white;
+  display:block !important;
+  }
+  html, body {
+      width: 210mm;
+      overflow:visible !important;
+  }
+
+#grid-pagina>* {
+          outline: none;
+          display: block;
+  }*/
+#grid-pagpagina>section{
+  page-break-before:always;
+}
+  
+#utilizatori{
+  page-break-before:always;
+}
+
+
+  #watermark
+  {
+    display: block;
+    position: fixed;/*apare pe toate paginile*/
+    bottom:20px;
+          right: 20px;
+          width: 4cm;
+          height: 1cm;
+          border: 3px solid black;
+          border-radius: 5px;
+          text-align: center;
+          font-weight: bold;
+          opacity: 0.4;
+    
+  }
+  
+
+#end{
+  page-break-before: always;
+}
+}
+
+@page {
+  size: A4 portrait;
+  margin-bottom:2cm;
+  margin-top:2cm;
+  counter-increment: page;
+    
+}
+@page:left{
+
+  margin-left:3cm;
+  margin-right:1cm;
+  border-radius: 20cm;
+}
+@page:right{
+
+  margin-right:3cm;
+  margin-left:1cm;
+}
+ 
+video {
+  max-width: 100%;
+  min-width: 200px;
+  width: 90%;
+  max-height: 70%;
+  min-height: 100px;
+  height: 60%;
+}
+@media only screen and (max-width: 1200px) {
+  video {
+    max-width: 100%;
+    width: 90%;
+    max-height: 70%;
+    height: 60%;
+  }
+}
+@media only screen and (max-width: 800px) {
+  video {
+    max-width: 100%;
+    width: 70%;
+    max-height: 70%;
+    height: 30%;
+  }
+}
+
+::cue {
+  background: green;
+  font-style: italic;
+  color: #ffbbbb;
+}

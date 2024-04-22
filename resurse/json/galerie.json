@@ -1,0 +1,75 @@
+{
+	"cale_galerie":"resurse/imagini/galerie",
+	"imagini": [
+	{
+		"fisier_imagine":"biblioteca-clasica.png",
+		"nume_poza":"Biblioteca-clasica",
+		"continut_alternativ":"biblioteca-clasica",
+		"descriere_poza":"biblioteca-clasica",
+		"intervale_zile":[["luni", "miercuri"],["sambata","sambata"]]
+	},
+	{
+		"fisier_imagine":"birou-modern.png",
+		"nume_poza":"Birou-modern",
+		"continut_alternativ":"birou-modern",
+		"descriere_poza":"birou-modern",
+		"intervale_zile":[["joi", "vineri"],["duminica","duminica"]]
+	},
+	{
+		"fisier_imagine":"bucatarie.png",
+		"nume_poza":"Bucatarie",
+		"continut_alternativ":"bucatarie",
+		"descriere_poza":"bucatarie",
+		"intervale_zile":[["luni", "miercuri"],["sambata","sambata"]]
+	},
+	{
+		"fisier_imagine":"bucatarie-moderna.png",
+		"nume_poza":"Bucatarie-moderna",
+		"continut_alternativ":"bucatarie-moderna",
+		"descriere_poza":"bucatarie-moderna",
+		"intervale_zile":[["joi", "vineri"],["duminica","duminica"]]
+	},
+	{
+		"fisier_imagine":"dormitor-clasic.png",
+		"nume_poza":"Dormitor-clasic",
+		"continut_alternativ":"dormitor-clasic",
+		"descriere_poza":"dormitor-clasic",
+		"intervale_zile":[["luni", "miercuri"],["sambata","sambata"]]
+	},
+	{
+		"fisier_imagine":"living.png",
+		"nume_poza":"Living",
+		"continut_alternativ":"living",
+		"descriere_poza":"living",
+		"intervale_zile":[["duminica","sambata"]]
+	},
+	{
+		"fisier_imagine":"living2.png",
+		"nume_poza":"Living2",
+		"continut_alternativ":"living2",
+		"descriere_poza":"living2",
+		"intervale_zile":[["joi", "vineri"],["duminica","duminica"]]
+	},
+	{
+		"fisier_imagine":"living-modern.png",
+		"nume_poza":"Living-moderning",
+		"continut_alternativ":"living-modern",
+		"descriere_poza":"living-modern",
+		"intervale_zile":[["joi", "vineri"],["duminica","duminica"]]
+	},
+	{
+		"fisier_imagine":"livivng-clasic.png",
+		"nume_poza":"Livivng-clasic",
+		"continut_alternativ":"livivng-clasic",
+		"descriere_poza":"livivng-clasic",
+		"intervale_zile":[["luni", "miercuri"],["sambata","sambata"]]
+	},
+	{
+		"fisier_imagine":"sala-prezentare.png",
+		"nume_poza":"Sala-prezentare",
+		"continut_alternativ":"sala-prezentare",
+		"descriere_poza":"sala-prezentare",
+		"intervale_zile":[["luni", "vineri"],["sambata","duminica"]]
+	}
+	]
+}
