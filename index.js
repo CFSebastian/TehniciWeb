@@ -16,7 +16,7 @@ var client= new Client({database:"cti_2024",
 client.connect();
 
 
-client.query("select * from prajituri", function(err,rez){
+client.query("select * from unnest(enum_range(null::categ_prajituri))", function(err,rez){
     console.log(rez);
 })
 
@@ -81,17 +81,24 @@ app.get("/favicon.ico", function(req, res){
 
 /*==============================Produse================================*/
 
-app.get("/produse",function(req,res){
-    client.query("select * from prajituri",function(err,rez){
-       if(err) {
-            console.log(err);
-            afisareEroare(res,2);
-        }
-        else{
-            res.render("pagini/produse",{produse: rez.rows, optiuni:[]})
-        }
-    })
+app.get("/produse", function(req, res){
+    console.log(req.query)
+    var conditieQuery="";
+    if (req.query.tip){
+        conditieQuery=` where tip_produs='${req.query.tip}'`
+    }
+    client.query("select * from unnest(enum_range(null::categ_prajitura))", function(err, rezOptiuni){
 
+        client.query(`select * from prajituri ${conditieQuery}`, function(err, rez){
+            if (err){
+                console.log(err);
+                afisareEroare(res, 2);
+            }
+            else{
+                res.render("pagini/produse", {produse: rez.rows, optiuni:rezOptiuni.rows})
+            }
+        })
+    });
 })
 
 app.get("/produs/:id",function(req,res){
@@ -195,21 +202,21 @@ function initImagini(){
         fs.mkdirSync(caleAbsMediu);
     if (!fs.existsSync(caleAbsMic))
         fs.mkdirSync(caleAbsMic);
+    console.log(caleAbs);
      //for (let i=0; i< vErori.length; i++ )
      for (let imag of vImagini){
         /*[numeFis, ext]=imag.fisier.split("."); *///ex
         [numeFis, ext]=imag.fisier_imagine.split(".");
         let caleFisAbs=path.join(caleAbs,imag.fisier_imagine);
-        //console.log(numeFis);
+        console.log(caleFisAbs);
         let caleFisMediuAbs=path.join(caleAbsMediu, numeFis+".webp");
         sharp(caleFisAbs).resize(300).toFile(caleFisMediuAbs);
-        imag.fisier_mediu=path.join("/", obGlobal.obImagini.cale_galerie, "mediu",numeFis+".webp" )
-        imag.fisier_imagine=path.join("/", obGlobal.obImagini.cale_galerie, imag.fisier_imagine )
+        imag.fisier_mediu=path.join("/", obGlobal.obImagini.cale_galerie, "mediu",numeFis+".webp" );
         /*------pt.mic-------*/
         let caleFisMicAbs=path.join(caleAbsMic, numeFis+".webp");
         sharp(caleFisAbs).resize(200).toFile(caleFisMicAbs);
-        imag.fisier_mic=path.join("/", obGlobal.obImagini.cale_galerie,"mic",numeFis+".webp" )
-        imag.fisier_imagine=path.join("/", obGlobal.obImagini.cale_galerie, imag.fisier_imagine )
+        imag.fisier_mic=path.join("/", obGlobal.obImagini.cale_galerie,"mic",numeFis+".webp" );
+        imag.fisier_imagine=path.join("/", obGlobal.obImagini.cale_galerie, imag.fisier_imagine );
      }
 
      

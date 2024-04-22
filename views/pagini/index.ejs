@@ -200,23 +200,23 @@
                                     var d= new Date();
                                     var ziCurenta =d.getDay();
                                     console.log(vZile[ziCurenta]);
-                                    let ok=1;
                                     for(let imag of locals.imagini){
+                                        let ok=0;
+                                        console.log(imag.descriere_poza);
                                         for(let intZile of imag.intervale_zile) {
-                                            console.log(intZile.length,intZile[0],intZile[1]);
                                             
+                                            let intervalStart=vZile.indexOf(intZile[0]);
+                                            let intervalEnd=vZile.indexOf(intZile[1]);
+                                            console.log(intZile.length,intZile[0],intZile[1],ok);
+                                            if(ziCurenta >= intervalStart && ziCurenta <= intervalEnd){
+                                                ok=1;
+                                                console.log(intZile.length,intZile[0],intZile[1],ok);
+                                                break;
+                                            }
                                         }
-                                        if (imag.intervale_zile && imag.intervale_zile.length >= 2) {
-                                            intervalStart =  vZile.indexOf(imag.intervale_zile[0][0]);
-                                            intervalEnd = vZile.indexOf(imag.intervale_zile[0][1]);
-        
-                                            intervalStartWeekend =  vZile.indexOf(imag.intervale_zile[1][0]);
-                                            
-                                            intervalEndWeekend = vZile.indexOf(imag.intervale_zile[1][1]);
-                                            
-        
-                                            if((ziCurenta >= intervalStart && ziCurenta <= intervalEnd) || (ziCurenta >= intervalStartWeekend && ziCurenta <= intervalEndWeekend) ){
-                                                console.log(imag.intervale_zile.length);
+                                        
+                                            if(ok==1){
+                                                //console.log(imag);
                                          %>  
                                             <figure>
                                                 <picture>
@@ -227,7 +227,7 @@
                                                 <figcaption><%= imag.descriere_poza%></figcaption>
                                             </figure>
                                             <% } }%>
-                                        <% } %>
+                                        
                                     
                             </div>
                     </section>
