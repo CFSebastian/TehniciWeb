@@ -1,12 +1,23 @@
 <header class="inset">
-            
+            <script src="/resurse/js/tema.js"></script>
             <h1><b><div id="titlu">
                 Magazin mobila
                 <div id="titluU">
                     Magazin mobila
                 </div>
             </div></b></h1>
-            <img src="./resurse/imagini/favicon/couch-2027234_1280.png" alt="sigla" width="160" height="100">
+            
+            <img src="../resurse/imagini/favicon/couch-2027234_1280.png" alt="sigla" width="160" height="100">
+            <!--<button id="schimba_tema"  class="btn btn-primary btn-lg">Schimba tema <i class="bi bi-filter"></i><i class="fa-solid fa-moon "></i></button>-->
+           
+            <div class="form-check form-switch">
+                <input id="schimba_tema" class="form-check-input" type="checkbox" id="temaSwitch">
+                <label class="form-check-label" for="temaSwitch">
+                  <i class="fa-solid fa-sun" class="tema-soare d-none"></i>
+                  <i class="fa-solid fa-moon" class="tema-luna"></i>
+                </label>
+            </div>
+           
             <nav>
                 <label id="hamburger" for="ch-menu">
                     <img src="resurse/imagini/Hamburger_icon_alb.png" alt="menu">
@@ -28,15 +39,15 @@
                   
                     <li><div>Produse</div>
                         <ul>
-                        <li><a href="/produse">Toate</a></li>
-                        <li><a href="/index#produse">Sufragerie</a></li>
-                        <li><a href="/produse/?tip=cofetarie">Dormitor</a></li>
-                        <li><a href="/produse/?tip=gelaterie">Living</a></li>
-                        <li><a href="#">Baie</a></li>
-                        <li><a href="#">Bicatarie</a></li>
-                        <li><a href="#">Hol</a></li>
-                        <li><a href="#">Intrare</a></li>
-                        <li><a href="#">Gradina</a></li>
+                            <li><a href="/mobila">Toate</a></li>
+                            <li><a href="/mobila/?tip=sufragerie">Sufragerie</a></li>
+                            <li><a href="/mobila/?tip=dormitor">Dormitor</a></li>
+                            <li><a href="/mobila/?tip=living">Living</a></li>
+                            <li><a href="/mobila/?tip=baie">Baie</a></li>
+                            <li><a href="/mobila/?tip=bucatarie">Bucatarie</a></li>
+                            <li><a href="/mobila/?tip=hol">Hol</a></li>
+                            <li><a href="/mobila/?tip=exterior">Gradina</a></li>
+                            <li><a href="/mobila/?tip=general">Generale</a></li>
                         </ul>
                     </li>
                     <li><a href="#">Inregistrare</a></li>
