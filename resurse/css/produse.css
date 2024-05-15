@@ -1,5 +1,15 @@
+body{
+    --culoareFundal:#F09C22;
+    --culoareFundal2:#B08545;
+    --culoareComplementF:#2297F0;
+    --culoareAccente1:#49789B;
+    --culoareAccente2:#706048;
+    --dimSpatiere:120px;
+    padding-left: var(--dimSpatiere);
+    padding-right: var(--dimSpatiere);
+  }
 main{
-    --padd-main:1rem;
+    --padd-main:0.5rem;
     padding-left:var(--padd-main);
     padding-right:var(--padd-main);
 }
@@ -10,13 +20,13 @@ main{
     grid-gap:1rem;
 }
 .grid-produse .produs{
-    border-radius: 2rem;
+    border-radius: 0.5rem;
     box-shadow: 0px 0px 0.8rem 0.3rem grey;
     overflow: hidden;
 }
 
 .grid-produse .produs h3{
-    background-color: var(--culoare-roz-inchis);
+    background-color: var(-culoareFundal2);
     text-align: center;
     margin-top: 0;
     padding-top: 0.5rem;
@@ -27,7 +37,7 @@ main{
     color:black;
 }
 .grid-produse .produs h3 a:hover{
-    color:white;
+    color:rgb(117, 117, 117);
 }
 .grid-produse .produs figure{
     text-align: center;
@@ -37,12 +47,18 @@ main{
 }
 .grid-produse .produs .info-prod{
     display:flex;
-    background-color: var(--cl-marcare);
+    background-color: var(--culoareAccente1);
 }
-.grid-produse .produs .info-prod p{
-    width:30%;
+.grid-produse .produs .info-prod {
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap:1rem;
+
+    width:100%;
     text-align:center;
     font-weight:bold;
+    flex-direction: column;
+ 
 }
 
 .grid-produse .produs p.categorie{
@@ -51,15 +67,15 @@ main{
     font-weight:bold;
 }
 
-.info-produse{
-    background-color: var(--cl-marcare);
-    padding:0.2rem;
+.info-prod{
+    background-color: var(--culoareFundal2);
+    padding:0.1rem;
     box-shadow: 0px 0px 0.5rem 0.15rem grey;
 }
-
 .produs{
     position: relative;
 }
+
 .selecteaza-cos{
     display: inline-block;
     background-color: var(--culoare-mov);
@@ -77,3 +93,30 @@ main{
     
     border:1px solid  var(--culoare-mov);
 }
+/*=========================Mobila===================*/
+.camera{
+    display: none;
+}
+/*.info-prod{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap:1rem;
+}*/
+#par_suma {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+}
+.grid-produse .produs .info-prod .info-val .tab-prod{
+    position:relative;
+}/*
+.tab-prod{
+    position: relative;
+}*/

@@ -9,7 +9,15 @@ body{
   padding-right: var(--dimSpatiere);
 }
 
-
+body.dark{
+  --culoareFundal:#9C6000;
+  --culoareFundal2:#704123;
+  --culoareComplementF:#005BBB;
+  --culoareAccente1:#2A475E;
+  --culoareAccente2:#4d4231;
+  background: rgba(36, 36, 36, 0.781);
+  
+}
 /*=====buton mergi sus===============*/
 #link-top{
     position:fixed;
@@ -58,7 +66,7 @@ section {
   overflow: auto;
 }
 /*============ stilizare tabel orar==============*/
-table {
+#tab-orar {
   text-align: center;
   
 }
@@ -185,3 +193,5 @@ caption {
  
   text-align: center;
 }
+
+

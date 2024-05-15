@@ -1,6 +1,8 @@
+
+
 @use '../../node_modules/bootstrap/scss/bootstrap.scss' with 
 (
-    $primary: #F09C22,
+    $primary: #B08545,
     $secondary:#2297F0,
     $font-family-base: "Coustard",
      $body-color: black, // Textul va fi alb
@@ -8,11 +10,62 @@
     $h1-font-size: 2.5rem, // Dimensiunea literelor pentru h1
     $h2-font-size: 2rem, // Dimensiunea literelor pentru h2
     $border-radius: 8px,
+    //$border-color-translucent: black,
+    //$border-color: black,
     $container-max-widths: (
         md: 1200px,
         lg: 2400px,
     ),
     $border-width: 4px,
     $border-color: #2297F0,
-    $border-color-translucent: #2297F0
+    $border-color-translucent: #2297F0,
+    $form-range-track-bg: #B08545,
+    $font-size-base: 1rem,
+    $form-range-thumb-width:1.5 * 1rem
 );
+$border-width: 2px; 
+$border-radius: 20px;
+$primary2:  #B08545;
+$secondary: #2297F0;
+
+
+
+#filtrare, #resetare{
+    background-color: $primary2;
+}
+#sortCrescNume, #sortDescrescNume, #b-suma {
+    background-color: $secondary;
+}
+.btn{
+    border: $border-width solid transparent;
+    border-radius: $border-radius;
+}
+.bi {
+    flex-shrink: 5;
+    display: block;
+    color:red;
+}
+/*.is-invalid {
+    border-color: #dc3545 !important;
+  }*/
+.row {
+    border: 1px block grey;
+}
+/*.tema-soare {
+    display: none;
+  }
+  
+  .tema-luna {
+    display: inline-block;
+  }
+  
+  .form-check-input:checked + .form-check-label {
+    
+    .tema-luna {
+      display: none;
+    }
+  
+    .tema-soare {
+      display: inline-block;
+    }
+  }*/

@@ -227,7 +227,7 @@ h1{
   /*=============end  Printare meniu========================*/
   a {
       text-decoration: none !important;
-      color: black !important;
+      color: inherit !important;
     }
   
 #grid-pagina{
