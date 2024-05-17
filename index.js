@@ -6,6 +6,14 @@ const sass=require('sass');
 //const { Client } = require("pg");
 const { request } = require("http");
 const ejs=require('ejs');
+const AccesBD= require("./module_proprii/accesbd.js");
+
+const formidable=require("formidable");
+const {Utilizator}=require("./module_proprii/utilizator.js")
+const session=require('express-session');
+const Drepturi = require("./module_proprii/drepturi.js");
+const utilizator = require("./module_proprii/utilizator.js");
+
 const Client = require("pg").Client;
 
 var client= new Client({database:"cti_2024",
@@ -29,7 +37,7 @@ obGlobal = {
     
 }
 
-vect_foldere = ["temp", "temp1","backup"];
+vect_foldere = ["temp", "temp1","backup","poze_uploadate"];
 for (let folder of vect_foldere) {
     let caleFolder = path.join(__dirname, folder)
     if (!fs.existsSync(caleFolder)) {
@@ -38,6 +46,13 @@ for (let folder of vect_foldere) {
 }
 
 app= express();//apeleaza o functie din express , iar app va astepta o valoare
+
+app.use(session({ // aici se creeaza proprietatea session a requestului (pot folosi req.session)
+    secret: 'abcdefg',//folosit de express session pentru criptarea id-ului de sesiune
+    resave: true,
+    saveUninitialized: false
+  }));
+
 console.log("Folder proiect", __dirname);//Folderul aplicatiei
 console.log("Cale fisier", __filename);//calea fisier
 console.log("Director de lucru", process.cwd());//Curent working directory , folderul de unde rulam aplicatia
@@ -45,6 +60,7 @@ console.log("Director de lucru", process.cwd());//Curent working directory , fol
 app.set("view engine","ejs");//motorul de temp
 
 app.use("/resurse", express.static(__dirname+"/resurse"));//fac un alias
+app.use("/poze_uploadate", express.static(__dirname+"/poze_uploadate"));
 app.use("/node_modules", express.static(__dirname+"/node_modules"));
 
 //app.get("/",function(req,res){
@@ -78,7 +94,59 @@ app.get("/suma/:a/:b", function(req,res){
 app.get("/favicon.ico", function(req, res){
     res.sendFile(path.join(__dirname, "resurse/imagini/favicon/favicon.ico"))
 })
+//=================================Mobila=========================
+app.get("/mobila", function(req, res){
+    console.log(req.query)
+    var conditieQuery="";
+    if (req.query.tip){
+        conditieQuery=` where camera_mobila='${req.query.tip}'`//tip?
+    }
+    client.query("select * from unnest(enum_range(null::tipuri_mobila))", function(err, rezOptiuni){
 
+        client.query(`select * from mobila ${conditieQuery}`, function(err, rez){
+            if (err){
+                console.log(err);
+                afisareEroare(res, 2);
+            }
+            else{
+                res.render("pagini/mobila", {mobila: rez.rows, optiuni:rezOptiuni.rows})
+            }
+        })
+    });
+})
+/*app.get("/mobila", function(req, res){
+    client.query("select * from mobila", function(err, rez){
+        if (err) {
+            // Handle the error
+            console.error("Error executing query:", err);
+            // Optionally, you can send an error response to the client
+            return res.status(500).send("Internal Server Error");
+        }
+        // Check if rez exists and has rows
+        if (rez && rez.rows) {
+            res.render("pagini/mobila", {mobila: rez.rows, optiuni:[]});
+        } else {
+            // Handle the case where no rows were returned
+            console.error("No rows returned from the query");
+            // Optionally, you can send a message to the client
+            return res.status(404).send("No data found");
+        }
+        
+    })
+})
+*/
+app.get("/mobilier/:id",function(req,res){
+    client.query(`select * from mobila where id=${req.params.id}`,function(err,rez){
+        if(err) {
+            console.log(err);
+            afisareEroare(res,2);
+                }
+        else{
+            res.render("pagini/mobilier",{mob: rez.rows[0]})
+        }
+    })
+
+})
 /*==============================Produse================================*/
 
 app.get("/produse", function(req, res){
@@ -113,7 +181,97 @@ app.get("/produs/:id",function(req,res){
     })
 
 })
+//=============================salvare utilizator=============================
+app.post("/inregistrare",function(req, res){
+    var username;
+    var poza;
+    var formular= new formidable.IncomingForm()
+    formular.parse(req, function(err, campuriText, campuriFisier ){//4
+        console.log("Inregistrare:",campuriText);
 
+
+        console.log(campuriFisier);
+        console.log(poza, username);
+        var eroare="";
+
+
+        // TO DO var utilizNou = creare utilizator
+        var utilizatorNou=new utilizator()//?
+        try{
+            utilizNou.setareNume=campuriText.nume;
+            utilizNou.setareUsername=campuriText.username;
+            utilizNou.email=campuriText.email
+            utilizNou.prenume=campuriText.prenume
+           
+            utilizNou.parola=campuriText.parola;
+            utilizNou.culoare_chat=campuriText.culoare_chat;
+            utilizNou.poza= poza;
+            Utilizator.getUtilizDupaUsername(campuriText.username, {}, function(u, parametru ,eroareUser ){
+                if (eroareUser==-1){//nu exista username-ul in BD
+                    //TO DO salveaza utilizator
+                    utilzNiou.salvareUtilizator()//?
+                }
+                else{
+                    eroare+="Mai exista username-ul";
+                }
+
+
+                if(!eroare){
+                    res.render("pagini/inregistrare", {raspuns:"Inregistrare cu succes!"})
+                   
+                }
+                else
+                    res.render("pagini/inregistrare", {err: "Eroare: "+eroare});
+            })
+           
+
+
+        }
+        catch(e){
+            console.log(e);
+            eroare+= "Eroare site; reveniti mai tarziu";
+            console.log(eroare);
+            res.render("pagini/inregistrare", {err: "Eroare: "+eroare})
+        }
+   
+
+
+
+
+
+
+    });
+    formular.on("field", function(nume,val){  // 1
+   
+        console.log(`--- ${nume}=${val}`);
+       
+        if(nume=="username")
+            username=val;
+    })
+    formular.on("fileBegin", function(nume,fisier){ //2
+        console.log("fileBegin");
+       
+        console.log(nume,fisier);
+        //TO DO adaugam folderul poze_uploadate ca static si sa fie creat de aplicatie
+        //TO DO in folderul poze_uploadate facem folder cu numele utilizatorului (variabila folderUser)
+        var folderUser = path.join(__dirname,"poze_uploadate",username);
+
+        if(!fs.existsSync(folderUser))
+                fs.mkdirSync(folderUser);
+       
+        fisier.filepath=path.join(folderUser, fisier.originalFilename)
+        poza=fisier.originalFilename;
+        //fisier.filepath=folderUser+"/"+fisier.originalFilename
+        console.log("fileBegin:",poza)
+        console.log("fileBegin, fisier:",fisier)
+
+
+    })    
+    formular.on("file", function(nume,fisier){//3
+        console.log("file");
+        console.log(nume,fisier);
+    });
+});
 
 
 app.get(new RegExp("^\/[A-Za-z\/0-9]*\/$"), function (req, res) {
@@ -134,6 +292,9 @@ app.get("/*", function (req, res) {
                     afisareEroare(res, 404);
                     console.log("Nu a gasit pagina: ", req.url)
                 }
+            }
+            else{
+                res.send(rezHtml);
             }
         });
     }
@@ -276,3 +437,5 @@ fs.watch(obGlobal.folderScss, function(eveniment, numeFis){
 
 app.listen(8080);//port de ascultare
 console.log("Serverul a pornit");
+
+
