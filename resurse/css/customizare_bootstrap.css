@@ -11839,7 +11839,6 @@ textarea.form-control-lg {
 .bi {
   flex-shrink: 5;
   display: block;
-  color: red;
 }
 
 /*.is-invalid {
@@ -11867,3 +11866,15 @@ textarea.form-control-lg {
       display: inline-block;
     }
   }*/
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  overflow-y: hidden !important;
+}
+
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+  overflow-y: hidden !important;
+}

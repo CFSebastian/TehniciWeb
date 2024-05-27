@@ -194,4 +194,67 @@ caption {
   text-align: center;
 }
 
+/*=============banner cookies===============*/
+#banner {
+  display: none; /* Inițial ascuns */
+  position: fixed;
+  bottom: 0;
+  width: 115%;
+  background-color: var(--culoareAccente2); /* Culoare de fundal */
+  color: var(--culoareComplementF);
+  text-align: center;
+  padding: 15px;
+  font-size: 16px;
+  z-index: 1000;
+  margin-left: -15%;
+  
+}
+#banner span {
+  display: inline-block;
+  margin-left: 20px;
+}
+@keyframes slideUp {
+  0% {
+      transform: translateY(100%);
+      color: var(--culoareFundal2);
+  }
+  50% {
+      transform: translateY(-20px);
+      color: var(--culoareFundal);
+  }
+  100% {
+      transform: translateY(0);
+      color: var(--culoareComplementF);
+  }
+}
 
+@media (max-width: 1200px) {
+  #banner {
+    display: block;
+    animation: none !important;
+}
+}
+@media (max-width: 800px) {
+  #banner {
+    margin-left: -25%;
+    width: 105%;
+    display: block;
+    animation: none !important;
+}
+}
+
+.is-invalid {/*TO DO*/
+  content: "invalid";
+}
+
+.card {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  
+
+}
+.card.show {
+  opacity: 1;
+  transform: translateY(0);
+}

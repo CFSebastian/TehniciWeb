@@ -15,9 +15,9 @@ window.onload = function() {
     
 }
 
-window.addEventListener("load",function(){
+/*window.addEventListener("load",function(){
     console.log(document.getElementById("produse").innerHTML)
-})
+})*/
 
 
 window.addEventListener("load",function(){
@@ -233,19 +233,28 @@ window.addEventListener("load",function(){
                 }, 2000)
             }
         }
-    function matchPattern(str, pattern) {
-        // Înlocuim caracterul "*" din șablon cu o expresie regulată care să înlocuiască orice caractere
-        var regexPattern = pattern.replace(/\*/g, ".*");
-
-        // Creăm o expresie regulată pe baza șablonului modificat
-        var regex = new RegExp(regexPattern);
-
-        // Verificăm dacă șirul se potrivește cu expresia regulată
-        return regex.test(str);
-    }
+    //function matchPattern(str, pattern) {
+        //var regexPattern = pattern.replace(/\*/g, ".*");
+        //var regex = new RegExp(regexPattern);
+        //return regex.test(str);
+    //}
     
    
 
 })
 
+/*const textMat=document.getElementById("materiale");
+textMat.addEventListener('input',function(){
+    const inpVal=textMat.value.trim();
+    const invalid=document.querySelector('#materiale + #lab-mat');
+    if(inpVal=='') 
+    {
+        textMat.classList.add('is-invalid');
+        invalid.style.display ='block';
+    } 
+    else {
+        textMat.classList.remove('is-invalid');
+        invalid.style.display ='none';
+    } 
 
+})*/
