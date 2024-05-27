@@ -7,7 +7,11 @@ for(let interval of v_intervale){
 }
 
 console.log(sirAlphaNum);
-
+/**
+ * Genereaza un token pentru parole
+ * @param {number} n 
+ * @returns {sirAlphaNum} 
+ */
 function genereazaToken(n){
     let token=""
     for (let i=0;i<n; i++){

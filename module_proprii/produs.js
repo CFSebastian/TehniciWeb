@@ -1,3 +1,7 @@
+/**
+ * Clasa pentru produse
+ * @class
+ */
 class Produs{
 
     constructor({id, nume, descriere, pret, gramaj, tip_produs, calorii, categorie, ingrediente, pt_diabetici, imagine, data_adaugare}={}) {

@@ -6,9 +6,12 @@ inca nu am implementat protectia contra SQL injection
 
 const {Client, Pool}=require("pg");
 
-
+/**
+ * Clasa singleton pentru accesarea bazei de date 
+ * @class
+ */
 class AccesBD{
-    static #instanta=null;
+    static #instanta=null;//pt singleton
     static #initializat=false;
 
     constructor() {
@@ -19,11 +22,13 @@ class AccesBD{
             throw new Error("Trebuie apelat doar din getInstanta; fara sa fi aruncat vreo eroare");
         }
     }
-
+    /**
+     * Faciliteaza legatura cu baza de date
+     */
     initLocal(){
-        this.client= new Client({database:"laborator",
-            user:"irina", 
-            password:"irina", 
+        this.client= new Client({database:"cti_2024",
+            user:"sebi1", 
+            password:"sebi1", 
             host:"localhost", 
             port:5432});
         // this.client2= new Pool({database:"laborator",
@@ -33,7 +38,9 @@ class AccesBD{
         //         port:5432});
         this.client.connect();
     }
-
+    /**
+     * @returns {object}
+     */
     getClient(){
         if(!AccesBD.#instanta ){
             throw new Error("Nu a fost instantiata clasa");
@@ -99,9 +106,9 @@ class AccesBD{
      * Selecteaza inregistrari din baza de date
      *
      * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
-     * @param {function} callback - o functie callback cu 2 parametri: eroare si rezultatul queryului
+     * @param {QueryCallBack} callback - o functie callback cu 2 parametri: eroare si rezultatul queryului
      */
-    select({tabel="",campuri=[],conditiiAnd=[]} = {}, callback, parametriQuery=[]){
+    select({tabel="",campuri=[],conditiiAnd=[]} = {}, callback, parametriQuery=[]){// de adaugat variabila/parametri
         let conditieWhere="";
         if(conditiiAnd.length>0)
             conditieWhere=`where ${conditiiAnd.join(" and ")}`; 
@@ -114,6 +121,12 @@ class AccesBD{
         */
         this.client.query(comanda,parametriQuery, callback)
     }
+    /**
+     * Selecteaza inregistrari din baza de date asincron
+     *
+     * @param {ObiectQuerySelect} obj - un obiect cu datele pentru query
+     * 
+     */
     async selectAsync({tabel="",campuri=[],conditiiAnd=[]} = {}){
         let conditieWhere="";
         if(conditiiAnd.length>0)
@@ -166,7 +179,12 @@ class AccesBD{
     //     console.log(comanda);
     //     this.client.query(comanda,callback)
     // }
-
+    /**
+     * Actualizeaza baza da date
+     * @param {ObiectQuerySelect} param0 - obiect primit de functiile care realizeaza un query
+     * @param {QueryCallBack} callback 
+     * @param {ObiectQuerySelect} parametriQuery 
+     */
     update({tabel="",campuri={}, conditiiAnd=[]} = {}, callback, parametriQuery){
         let campuriActualizate=[];
         for(let prop in campuri)
@@ -178,7 +196,12 @@ class AccesBD{
         console.log(comanda);
         this.client.query(comanda,callback)
     }
-
+    /**
+     * Actualizeaza baza da date dupa conditii lui param0
+     * @param {ObiectQuerySelect} param0 - obiect cu conditii primit de functiile care realizeaza un query 
+     * @param {QueryCallBack} callback 
+     * @param {ObiectQuerySelect} parametriQuery 
+     */
     updateParametrizat({tabel="",campuri=[],valori=[], conditiiAnd=[]} = {}, callback, parametriQuery){
         if(campuri.length!=valori.length)
             throw new Error("Numarul de campuri difera de nr de valori")
@@ -205,7 +228,11 @@ class AccesBD{
     //     let comanda=`update ${tabel} set ${campuriActualizate.join(", ")}  ${conditieWhere}`;
     //     this.client.query(comanda,valori, callback)
     // }
-
+    /**
+     * Sterge din tabel dupa conditiile lui param0
+     * @param {ObiectQuerySelect} param0 - obiect cu conditii primit de functiile care realizeaza un query 
+     * @param {QueryCallBack} callback 
+     */
     delete({tabel="",conditiiAnd=[]} = {}, callback){
         let conditieWhere="";
         if(conditiiAnd.length>0)

@@ -7,6 +7,7 @@
         <title>Magazin mobila</title>
         <%- include("../fragmente/head") %>     
         <script type="text/javascript" src=/resurse/js/mobila.js></script>
+        <script type="text/javascript" src=/resurse/js/bootstrap.js></script>
         
     </head>
     <body>
@@ -105,7 +106,7 @@
             <div class="row">
                 <p>
                 <button id="filtrare" class="btn btn-primary btn-lg">
-                    <span class="glyphicon glyphicon-filter d-inline-block d-sm-none" aria-hidden="true"><i class="bi bi-filter"></i><i class="fa-solid fa-filter"></i></span> <!-- Font awasom merge dar bootstrap nu ? -->
+                    <span class="glyphicon glyphicon-filter d-inline-block d-sm-none" aria-hidden="true"><i class="bi bi-filter"></i></span> <!-- Font awasom merge dar bootstrap nu ? -->
                     <span class="d-none d-sm-inline-block">Filtrare</span> 
                 </button> 
                 <button id="resetare" class="btn btn-primary btn-lg">Reseteaza</button><br/>
@@ -123,11 +124,11 @@
             <h2>Produse</h2>
             <div class="grid-produse">
                 <% for( let prod of locals.mobila) { %>
-                    <article class="produs" >
-                        <h3 class="nume">Nume: <a href="/mobilier/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3>
+                    <article class="produs card" >
+                        <h3 class="nume">Nume: <a class="linkprod" href="/mobilier/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3>
                         <div>
                             <p class="categorie">Categorie:<span class="val-categorie"><%- prod.categorie%></span></p>
-                            <p class="descriere">descriere: <span class="val-descriere"><%- prod.descriere%></span></p>
+                            <p class="descriere">Descriere: <span class="val-descriere"><%- prod.descriere%></span></p>
                             <p class="calorii">Volum: <span class="val-calorii"><%- prod.volum%></span></p>
                             <p class="camera">Camera: <span class="val-camera"><%- prod.camera_mobila%></span></p>
                         </div>

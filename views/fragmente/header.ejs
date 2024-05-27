@@ -1,5 +1,6 @@
 <header class="inset">
             <script src="/resurse/js/tema.js"></script>
+            <script src="/resurse/js/cookies.js"></script>
             <h1><b><div id="titlu">
                 Magazin mobila
                 <div id="titluU">
@@ -10,14 +11,21 @@
             <img src="../resurse/imagini/favicon/couch-2027234_1280.png" alt="sigla" width="160" height="100">
             <!--<button id="schimba_tema"  class="btn btn-primary btn-lg">Schimba tema <i class="bi bi-filter"></i><i class="fa-solid fa-moon "></i></button>-->
            
-            <div class="form-check form-switch">
+        
+           <!--<div class="form-check form-switch">
                 <input id="schimba_tema" class="form-check-input" type="checkbox" id="temaSwitch">
                 <label class="form-check-label" for="temaSwitch">
-                  <i class="fa-solid fa-sun" class="tema-soare d-none"></i>
-                  <i class="fa-solid fa-moon" class="tema-luna"></i>
+                  <i class="fa-solid fa-sun tema-soare d-none"></i>
+                  <i class="fa-solid fa-moon tema-luna"></i>
                 </label>
+            </div>-->
+             <div>
+                <label> <span class="bi bi-sun-fill" class="tema-soare d-none"></span></label>  
+                <div class="form-check form-switch form-check-inline">
+                    <input id="schimba_tema"  class="btn btn-primary btn-toggle form-check-input form-switch" type="checkbox">
+                    <label><span class="fas fa-moon" class="tema-luna"></span></label>
+                </div>
             </div>
-           
             <nav>
                 <label id="hamburger" for="ch-menu">
                     <img src="resurse/imagini/Hamburger_icon_alb.png" alt="menu">
@@ -50,8 +58,12 @@
                             <li><a href="/mobila/?tip=general">Generale</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">Inregistrare</a></li>
+                    <li><a href="/inregistrare">Inregistrare</a></li>
                     <li><a href="#">Contacte</a></li>
+                    <%- include("../fragmente/submeniu-utilizator-logat.ejs"
+                )%>
+                   <%- include("../fragmente/submeniu-administrare.ejs"
+                   )%>
                 </ul> 
             </nav>
         </header>
