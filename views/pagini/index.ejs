@@ -21,10 +21,16 @@
                 <!--Prima sectiu pentru primire utilizatorilor-->
                 <section id="welcome">
                     <h2>Bine ati venit</h2>
-                    <%- include("../fragmente/formular-login.ejs"
-                    )%>
+                    
                     <button type="button" class="btn btn-primary btn-lg">Stil-1-mare</button>
                     <p>Ip: <%- locals.ip %></p>
+                    <%- include("../fragmente/locatie.ejs"
+                    )%>
+                    <%- include("../fragmente/ora-server-client.ejs"
+                    )%>
+                    <div class="container-calendar">
+                    <%- include("../fragmente/evenimente.ejs"
+                    )%></div>
                     <p>Magazinul tau online preferat de <b>mobila</b> este aici. Noi iti livram si <b>asamblam</b> mobila ta.</p>
                     <section id="imagine">
                         <div id="prezentare">
@@ -167,7 +173,18 @@
                 </section>
                 <section id="utilizatori">
                     <h2>Utilizatori</h2>
+                    <%- include("../fragmente/useri-online.ejs")%>
+                    
                     <p>Duis in interdum nisi, gravida elementum ante. Aenean tortor risus, ornare eu mollis vitae, feugiat et augue. Nunc efficitur nibh eget turpis condimentum, eu luctus nisl luctus. Integer id quam elit. Mauris ut tempus dui. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Vestibulum pellentesque malesuada efficitur. Suspendisse potenti.</p>
+                    <% if(locals.utilizator) { %>
+                        <section>
+                            <h2>Poza</h2>
+                            <img src="/<%- locals.utilizator.poza%>" alt="nu ati incarcat poza de profil" />
+                        </section>
+                    <% } else { %>
+                        <p>Nu sunteti logat</p>
+                    <% } %>
+                    
                     <label> Cookies:<span id="infoCookie">Dezactivat</span>
                 </section>
                 <section id="date">

@@ -8,6 +8,7 @@
         <%- include("../fragmente/head") %>     
         <script type="text/javascript" src=/resurse/js/mobila.js></script>
         <script type="text/javascript" src=/resurse/js/bootstrap.js></script>
+        <script type="text/javascript" src=/resurse/js/produse-cos.js></script>
         
     </head>
     <body>
@@ -15,6 +16,7 @@
 
     <main>
         <div class="container">
+            <!--<p><%- locals.pMin%> --- <%- locals.optiuni[0].unnest%></p>-->
             <div class="row">
                 <label> Nume (se poate folosi "*"): <input type="text" id="inp-nume"></label>
                 <!--<label> Maxim calorii: <input type="number" id="inp-calorii" value="10000"></label>-->
@@ -80,24 +82,29 @@
                         </datalist>
                 </p>
             </div>
-
+            
             <div class="row">
                 <p>
                     <label for="tip-camera">Alege o camera:</label>
                     <select name="tip-camera" id="tip-camera"  multiple>
-                        <option value="dormitor">Dormitor</option>
-                        <option value="sufragerie">Sufragerie</option>
-                        <option value="living">Living</option>
-                        <option value="bucatarie">Bucatarie</option>
-                        <option value="baie">Baie</option>
-                        <option value="hol">Hol</option>
-                        <option value="exterior">Exterior</option>
-                        <option value="general">General</option>
+                        <option selected value="dormitor">Dormitor</option>
+                        <option selected value="sufragerie">Sufragerie</option>
+                        <option selected value="living">Living</option>
+                        <option selected value="bucatarie">Bucatarie</option>
+                        <option selected value="baie">Baie</option>
+                        <option selected value="hol">Hol</option>
+                        <option selected value="exterior">Exterior</option>
+                        <option selected value="general">General</option>
                     </select>
                     <br><br>
                 </p>
             </div>
-            
+
+            <!--<div class="row form-floating">
+                <textarea id="materiale" class="form-control" name="materiale" style="height: 100px" placeholder=""></textarea>
+                <label for="materiale" id="lab-mat" >Introdu materialele cautate separate prin virgula:</label>
+                <div class="invalid-feedback">Eroare</div>
+            </div>-->
             <div class="row form-floating">
                 <textarea id="materiale" class="form-control" name="materiale" style="height: 100px" placeholder="Materiale"></textarea>
                 <label for="materiale" id="lab-mat" >Introdu materialele cautate separate prin virgula:</label>
@@ -110,8 +117,8 @@
                     <span class="d-none d-sm-inline-block">Filtrare</span> 
                 </button> 
                 <button id="resetare" class="btn btn-primary btn-lg">Reseteaza</button><br/>
-                <button id="sortCrescNume" class="btn btn-primary btn-lg">Sorteaza crescator dupa lungimea descrierii si nume</button>
-                <button id="sortDescrescNume" class="btn btn-primary btn-lg">Sorteaza descrescator dupa lungimea descrierii si nume</button>
+                <button id="sortCrescNume" class="btn btn-primary btn-lg">Sorteaza crescator dupa nume si lungimea descrierii</button>
+                <button id="sortDescrescNume" class="btn btn-primary btn-lg">Sorteaza descrescator dupa nume si lungimea descrierii</button>
                 </p>
             </div>
 
@@ -119,18 +126,41 @@
                 <p id="p-suma"><button id="b-suma" class="btn btn-primary btn-lg">Apăsați pentru suma preturilor produselor afișate. </button></p>
             </div>
         </div>
-        
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+        </button>
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  ...
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+              </div>
+            </div>
+          </div>
         <section id="produse">
             <h2>Produse</h2>
             <div class="grid-produse">
                 <% for( let prod of locals.mobila) { %>
                     <article class="produs card" >
                         <h3 class="nume">Nume: <a class="linkprod" href="/mobilier/<%-prod.id %>" ><span class="val-nume"><%- prod.nume%></span></a></h3>
+                        
                         <div>
                             <p class="categorie">Categorie:<span class="val-categorie"><%- prod.categorie%></span></p>
                             <p class="descriere">Descriere: <span class="val-descriere"><%- prod.descriere%></span></p>
                             <p class="calorii">Volum: <span class="val-calorii"><%- prod.volum%></span></p>
                             <p class="camera">Camera: <span class="val-camera"><%- prod.camera_mobila%></span></p>
+                            <span class="prod-id" style="display: none;"><%- prod.id %></span>
                         </div>
                         <div class="info-prod">
                             <div class="info-val">
@@ -189,7 +219,7 @@
                                 <p class="data">Data: </p>
                                 <p class="materiale">Materiale: <span class="val-materiale"><%- prod.materiale%></span></p>
                                 <p class="asamblare">Asamblare: <span class="val-asamblare"><%- prod.necesitanecesita_asamblare ? 'NU' : 'DA'%></span></p>-->
-                                </details>
+                            </details>
                             </div>
                             <div class="img-prod">
                                 <figure calss="poz-prod">
@@ -201,8 +231,15 @@
                             Selectează:<br/>
                             <input type="checkbox" class="select-cos" value="<%-prod.id %>" autocomplete="off">
                         </label>
+                        <button class="pin btn btn-primary bp"><abbr title="Pastreza produsu dupa filtrare"><i class="bi bi-pin"></i></abbr></button>
+                        <button  class="sterge btn btn-primary bp"><abbr title="Sterge Produsul momentan"><i class="bi bi-trash2"></i></abbr></button>
+                        <button  class="sterge-sesiune btn btn-primary bp"><abbr title="Sterge produsu pentru sesiune"><i class="bi bi-trash"></abbr></i></button>
                     </article>
                 <% }%>
+                
+            </div>
+            <div  id="0Prod" style="display: none;">
+                <p> Nu exista produse conform filtrării curente </p>
             </div>
         </section>
     </main>

@@ -20,13 +20,22 @@ class Utilizator{
     static numeDomeniu="localhost:8080";
     #eroare;
   
-    constructor({id, username, nume, prenume, email, parola, rol, culoare_chat="black", poza}={}) {
+    constructor({id, username, nume, prenume, email, parola, rol, culoare_chat="black", poza,data_nastere,telefon}={}) {
         this.id=id;
 
         //optional sa facem asta in constructor
         try{ //DE CORECTA UITATE PE VIDEO LA CUSU 11 LA SFARSIT
-            if(this.checkUsername(username))
-                this.username = username;
+            if(this.checkUsername(username) && this.checkName(nume) && this.checkTelefon && this.checkVarsta 
+                && prenume!="" && email!="" && parola!="") {
+                this.username = username
+                this.nume = nume
+                this.prenume =prenume
+                this.email= email
+                this.parola =parola
+                this.telefon=telefon
+                this.data_nastere =data_nastere
+
+            }
         }
         catch(e){ this.#eroare=e.message}
 
@@ -78,6 +87,29 @@ class Utilizator{
     checkUsername(username){
         return username!="" && username.match(new RegExp("^[A-Za-z0-9#_./]+$")) ;
     }
+    checkTelefon(telefon){
+        if(telefon!="")
+            return username.match(new RegExp("/^\+?0\d{9,}$/")) ;
+        return true;
+    }
+    checkVarsta(data_nastere){
+        let nastere= new Date(data_nastere);
+        let azi = new Date();
+        let varsta = azi.getFullYear()-nastere.getFullYear();
+        if((nastere > azi || varsta < 18) && data_nastere!="") {
+            return false;
+        }
+        return true; 
+    }
+    generateToken1(length) {
+        const characters = 'abcdefghijklmnopqrstuvwxyz';
+        let result = '';
+        for (let i = 0; i < length; i++) {
+            const randomIndex = Math.floor(Math.random() * characters.length);
+            result += characters[randomIndex];
+        }
+        return result;
+    }
     /**
      * Cripteaza parola utilizatorului
      * @param {string} parola - parola utilizatorului
@@ -93,6 +125,8 @@ class Utilizator{
         let parolaCriptata=Utilizator.criptareParola(this.parola);
         let utiliz=this;
         let token=parole.genereazaToken(100);
+        let token2=Math.floor(Date.now() / 1000);
+        let token1=this.generateToken1(50);
         AccesBD.getInstanta(Utilizator.tipConexiune).insert({tabel:Utilizator.tabel,
             campuri:{
                 username:this.username,
@@ -102,14 +136,16 @@ class Utilizator{
                 email:this.email,
                 culoare_chat:this.culoare_chat,
                 cod:token,
-                poza:this.poza}
+                poza:this.poza,
+                data_nastere: this.data_nastere,
+                telefon: this.telefon
+            }
             }, function(err, rez){
             if(err)
                 console.log(err);
             else
-                utiliz.trimiteMail("Te-ai inregistrat cu succes","Username-ul tau este "+utiliz.username,
-            `<h1>Salut!</h1><p style='color:blue'>Username-ul tau este ${utiliz.username}.</p> <p><a href='http://${Utilizator.numeDomeniu}/cod/${utiliz.username}/${token}'>Click aici pentru confirmare</a></p>`,
-            )
+                utiliz.trimiteMail("Salut, stimate"+utiliz.nume,"Username-ul tau este "+utiliz.username+`<b><i><u>pe site-ul Magazin Mobila</b></i></u>`,
+            `<h1>Salut!</h1><p style='color:blue'>Username-ul tau este ${utiliz.username}.</p> <p><a href='http://${Utilizator.numeDomeniu}/cod_mail/${token1}-${token2}/${utiliz.username}'>Click aici pentru confirmare</a></p>`)
         });
     }
 //dbov zwkc mxes matd

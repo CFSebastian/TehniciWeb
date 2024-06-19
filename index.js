@@ -15,6 +15,12 @@ const Drepturi = require("./module_proprii/drepturi.js");
 const utilizator = require("./module_proprii/utilizator.js");
 const { table } = require("console");
 
+const QRCode= require('qrcode');
+const puppeteer=require('puppeteer');
+
+const xmljs=require('xml-js');
+const { MongoClient } = require("mongodb");
+
 const Client = require("pg").Client;
 
 var client= new Client({database:"cti_2024",
@@ -35,8 +41,17 @@ obGlobal = {
     folderScss: path.join(__dirname,"/resurse/scss"),
     folderCss: path.join(__dirname,"/resurse/css"),
     folderBackup: path.join(__dirname,"backup"),
+    //optiuniMeniu:[],
+    protocol:"http://",
+    numeDomeniu:"localhost:8080",
+    clientMongo:null,
+    bdMongo:null
     
 }
+
+const uri = "mongodb://localhost:27017";
+obGlobal.clientMongo = new MongoClient(uri);
+obGlobal.bdMongo = obGlobal.clientMongo.db('cti');
 
 //============================= C12 =========================
 client.query("select * from unnest(enum_range(null::tipuri_produse))", function(err, rezCategorie){
@@ -86,12 +101,117 @@ app.use("/resurse", express.static(__dirname+"/resurse"));//fac un alias
 app.use("/poze_uploadate", express.static(__dirname+"/poze_uploadate"));
 app.use("/node_modules", express.static(__dirname+"/node_modules"));
 
+// --------------------------utilizatori online ------------------------------------------
+
+
+function getIp(req){//pentru Heroku/Render
+    var ip = req.headers["x-forwarded-for"];//ip-ul userului pentru care este forwardat mesajul
+    if (ip){
+        let vect=ip.split(",");
+        return vect[vect.length-1];
+    }
+    else if (req.ip){
+        return req.ip;
+    }
+    else{
+     return req.connection.remoteAddress;
+    }
+}
+
+
+app.all("/*",function(req,res,next){
+    let ipReq=getIp(req);
+    if (ipReq){ 
+        var id_utiliz=req?.session?.utilizator?.id;
+        id_utiliz=id_utiliz?id_utiliz:null;
+        //console.log("id_utiliz", id_utiliz);
+        // TO DO comanda insert (folosind AccesBD) cu  ip, user_id, pagina(url  din request)
+        var obiectCerere;
+        if(id_utiliz){
+            obiectCerere={
+                ip: ipReq,
+                user_id:id_utiliz,
+                pagina: req.url
+            }
+        }
+        else{
+            obiectCerere={
+                ip: ipReq,
+                pagina: req.url
+            }
+        }
+        AccesBD.getInstanta().insert({
+            tabel:"accesari",
+            campuri:obiectCerere
+        }, function(err, rez){
+            if (err){
+                console.log(err)
+            }
+        })
+    }
+    next(); 
+});
+
+
+
+function stergeAccesariVechi(){
+    AccesBD.getInstanta().delete({
+        tabel:"accesari",
+        conditiiAnd:["now() - data_accesare >= interval '10 minutes' "]}, 
+        function(err, rez){
+            console.log(err);
+        })
+}
+stergeAccesariVechi();
+setInterval(stergeAccesariVechi, 10*60*1000);
+
+
+async function obtineUtilizatoriOnline(){
+    try{
+        var rez = await client.query("select username, nume, prenume from utilizatori where id in (select distinct user_id from accesari where now()-data_accesare <= interval '5 minutes')");
+            console.log(rez.rows);
+            return rez.rows
+        } catch (err) {
+            console.error(err);
+            return []
+        }
+}
 //app.get("/",function(req,res){
 //    res.sendFile(__dirname+"/index.html")
 //})
-
-app.get(["/", "/home", "/index"], function (req, res) {
-    res.render("pagini/index", {ip: req.ip, imagini:obGlobal.obImagini.imagini});
+//--------------------------------------locatie---------------------------------------
+async function obtineLocatie() {
+    try {
+        const response = await fetch('https://secure.geobytes.com/GetCityDetails?key=7c756203dbb38590a66e01a5a3e1ad96&fqcn=109.99.96.15');
+        const obiectLocatie = await response.json();
+        console.log(obiectLocatie);
+        locatie=obiectLocatie.geobytescountry+" "+obiectLocatie.geobytesregion
+        return locatie
+    } catch(error) {
+        console.error(error);
+    }
+}
+//----------------------------------evenimente----------------------------
+function genereazaEvenimente(){
+    var evenimente=[]
+    var texteEvenimente=["Eveniment important", "Festivitate", "Prajituri gratis", "Zi cu soare", "Aniversare"];
+    var dataCurenta=new Date();
+    for(i=0;i<texteEvenimente.length;i++){
+        evenimente.push({
+            data: new Date(dataCurenta.getFullYear(), dataCurenta.getMonth(), Math.ceil(Math.random()*27) ), 
+            text:texteEvenimente[i]
+        });
+    }
+    return evenimente;
+}
+app.get(["/", "/home", "/index"], async function (req, res) {
+    res.render("pagini/index", {
+        ip: req.ip, 
+        imagini:obGlobal.obImagini.imagini, 
+        useriOnline:await obtineUtilizatoriOnline(),
+        locatie:await obtineLocatie(),
+        eveniment: genereazaEvenimente()
+    });
 })
 
 app.get("/cerere", function(req,res){
@@ -117,7 +237,9 @@ app.get("/suma/:a/:b", function(req,res){
 app.get("/favicon.ico", function(req, res){
     res.sendFile(path.join(__dirname, "resurse/imagini/favicon/favicon.ico"))
 })
+
 //=================================Mobila=========================
+/*
 app.get("/mobila", function(req, res){
     console.log(req.query)
     var conditieQuery="";
@@ -137,7 +259,47 @@ app.get("/mobila", function(req, res){
         })
     });
 })
-/*app.get("/mobila", function(req, res){
+*/
+app.get("/mobila", function(req, res){
+    console.log(req.query)
+    var conditieQuery="";
+    if (req.query.tip){
+        conditieQuery=` where categorie='${req.query.tip}'`
+    }
+    client.query("select * from unnest(enum_range(null::tipuri_mobila))", function(err, rezOptiuni){
+
+        client.query(`select * from mobila ${conditieQuery}`, function(err, rez){
+            if (err){
+                console.log(err);
+                afisareEroare(res, 2);
+            }
+            else{
+                res.render("pagini/mobila", {mobila: rez.rows, optiuni:rezOptiuni.rows})
+            }
+        })
+    });
+})
+app.get("/mobila", function(req, res){
+    console.log(req.query)
+    var conditieQuery="";
+    if (req.query.tip){
+        conditieQuery=` where camera_mobila='${req.query.tip}'`//tip?
+    }
+    client.query("select * from unnest(enum_range(null::tipuri_mobila))", function(err, rezOptiuni){
+
+        client.query(`select * from mobila ${conditieQuery}`, function(err, rez){
+            if (err){
+                console.log(err);
+                afisareEroare(res, 2);
+            }
+            else{
+                res.render("pagini/mobila", {mobila: rez.rows, optiuni:rezOptiuni.rows})
+            }
+        })
+    });
+})
+/*Pentru debuging la baza de date ca sa arate erori de logare
+app.get("/mobila", function(req, res){
     client.query("select * from mobila", function(err, rez){
         if (err) {
             // Handle the error
@@ -204,6 +366,127 @@ app.get("/produs/:id",function(req,res){
     })
 
 })
+
+//------------------------------factura mongo-----------------------------------
+function insereazaFactura(req,rezultatRanduri){
+    rezultatRanduri.rows.forEach(function (elem){ elem.cantitate=1});
+    let jsonFactura= {
+        data: new Date(),
+        username: req.session.utilizator.username,
+        produse:rezultatRanduri.rows
+    }
+    console.log("JSON factura", jsonFactura)
+    if(obGlobal.bdMongo){
+        obGlobal.bdMongo.collection("facturi").insertOne(jsonFactura, function (err, rezmongo){
+            if (err) console.log(err)
+            else console.log ("Am inserat factura in mongodb");
+
+            obGlobal.bdMongo.collection("facturi").find({}).toArray(
+                function (err, rezInserare){
+                    if (err) console.log(err)
+                    else console.log (rezInserare);
+            })
+        })
+    }
+}
+// ---------------------------------  cos virtual --------------------------------------
+
+
+app.use(["/produse_cos","/cumpara"],express.json({limit:'2mb'}));//obligatoriu de setat pt request body de tip json
+
+
+
+app.post("/produse_cos",function(req, res){
+    console.log(req.body);
+    if(req.body.ids_prod.length!=0){
+        //TO DO : cerere catre AccesBD astfel incat query-ul sa fie `select nume, descriere, pret, gramaj, imagine from prajituri where id in (lista de id-uri)`
+        AccesBD.getInstanta().select({tabel:"prajituri", campuri:"nume,descriere,pret,gramaj,imagine".split(","),conditiiAnd:[`id in (${req.body.ids_prod})`]},
+        function(err, rez){
+            if(err)
+                res.send([]);
+            else
+                res.send(rez.rows); 
+        });
+}
+    else{
+        res.send([]);
+    }
+ 
+});
+
+
+cale_qr=__dirname+"/resurse/imagini/qrcode";
+if (fs.existsSync(cale_qr))
+  fs.rmSync(cale_qr, {force:true, recursive:true});
+fs.mkdirSync(cale_qr);
+client.query("select id from prajituri", function(err, rez){
+    for(let prod of rez.rows){
+        let cale_prod=obGlobal.protocol+obGlobal.numeDomeniu+"/produs/"+prod.id;
+        //console.log(cale_prod);
+        QRCode.toFile(cale_qr+"/"+prod.id+".png",cale_prod);
+    }
+});
+
+
+
+
+async function genereazaPdf(stringHTML,numeFis, callback) {
+    const chrome = await puppeteer.launch();
+    const document = await chrome.newPage();
+    console.log("inainte load")
+    //await document.setContent(stringHTML, {waitUntil:"load"});
+    await document.setContent(stringHTML, {waitUntil:"load"});
+    
+    console.log("dupa load")
+    await document.pdf({path: numeFis, format: 'A4'});
+    
+    console.log("dupa pdf")
+    await chrome.close();
+    
+    console.log("dupa inchidere")
+    if(callback)
+        callback(numeFis);
+}
+
+
+app.post("/cumpara",function(req, res){
+    console.log(req.body);
+
+    if (req?.utilizator?.areDreptul?.(Drepturi.cumparareProduse)){
+        AccesBD.getInstanta().select({
+            tabel:"prajituri",
+            campuri:["*"],
+            conditiiAnd:[`id in (${req.body.ids_prod})`]
+        }, function(err, rez){
+            if(!err  && rez.rowCount>0){
+                console.log("produse:", rez.rows);
+                let rezFactura= ejs.render(fs.readFileSync("./views/pagini/factura.ejs").toString("utf-8"),{
+                    protocol: obGlobal.protocol, 
+                    domeniu: obGlobal.numeDomeniu,
+                    utilizator: req.session.utilizator,
+                    produse: rez.rows
+                });
+                console.log(rezFactura);
+                let numeFis=`./temp/factura${(new Date()).getTime()}.pdf`;
+                genereazaPdf(rezFactura, numeFis, function (numeFis){
+                    mesajText=`Stimate ${req.session.utilizator.username} aveti mai jos factura.`;
+                    mesajHTML=`<h2>Stimate ${req.session.utilizator.username},</h2> aveti mai jos factura.`;
+                    req.utilizator.trimiteMail("Factura", mesajText,mesajHTML,[{
+                        filename:"factura.pdf",
+                        content: fs.readFileSync(numeFis)
+                    }] );
+                    res.send("Totul e bine!");
+                });
+                //insereazaFactura(req,rez)
+                
+            }
+        })
+    }
+    else{
+        res.send("Nu puteti cumpara daca nu sunteti logat sau nu aveti dreptul!");
+    }
+    
+});
 //=============================salvare utilizator=============================
 app.post("/inregistrare",function(req, res){
     var username;
@@ -375,8 +658,8 @@ app.get("/cod/:username/:token",function(req,res){
 app.post("/profil", function(req, res){
     console.log("profil");
     if (!req.session.utilizator){
-        afisareEroare(res,403,)
-        res.render("pagini/eroare_generala",{text:"Nu sunteti logat."});
+        afisareEroare(res,403)
+       
         return;
     }
     var formular= new formidable.IncomingForm();
@@ -393,6 +676,7 @@ app.post("/profil", function(req, res){
                 `${campuriText.prenume[0]}`,
                 `${campuriText.email[0]}`,
                 `${campuriText.culoare_chat[0]}`],
+                
             conditiiAnd:[
                 `parola='${parolaCriptata}'`,
                 `username='${campuriText.username[0]}'`
@@ -419,7 +703,12 @@ app.post("/profil", function(req, res){
                 res.locals.utilizator=req.session.utilizator;
             }
  
- 
+            //mail update
+            req.session.utilizator.trimiteMail("Salut, stimate"+campuriText.nume[0],"Datele tale au fost actualizate",
+            `<h1>Detalii</h1><p Nume: ${campuriText.nume[0]}.</p> 
+            <p Prenume: ${campuriText.prenume[0]}.</p>
+            <p Email: ${campuriText.email[0]}.</p>
+            <p Culoare_chat: ${campuriText.culoare_chat[0]}.</p>`);
             res.render("pagini/profil",{mesaj:"Update-ul s-a realizat cu succes."});
  
         });
@@ -427,15 +716,161 @@ app.post("/profil", function(req, res){
  
     });
 });
-//=======================sfarsit utilizatori==============================
 
+app.get("/useri", function(req, res){
+    /* TO DO
+    * in if testam daca utilizatorul din sesiune are dreptul sa vizualizeze utilizatori
+    * completam obiectComanda cu parametrii comenzii select pentru a prelua toti utilizatorii
+    * */
+    if(req?.utilizator?.areDreptul(Drepturi.vizualizareUtilizatori)){
+        var obiectComanda= {
+            tabel:"utilizatori",
+            campuri: ["*"],
+            conditiiAnd:[]
+        };
+        AccesBD.getInstanta().select(obiectComanda, function(err, rezQuery){
+            console.log(err);
+            res.render("pagini/useri", {useri: rezQuery.rows});
+        });
+        
+    }
+    else{
+        afisareEroare(res, 403);
+    }
+    
+});
+
+
+
+
+app.post("/sterge_utiliz", function(req, res){
+    /* TO DO
+    * in if testam daca utilizatorul din sesiune are dreptul sa stearga utilizatori
+    * completam obiectComanda cu parametrii comenzii select pentru a prelua toti utilizatorii
+    */
+    if(req?.utilizator?.areDreptul(Drepturi.s)){
+        var formular= new formidable.IncomingForm();
+ 
+        formular.parse(req,function(err, campuriText, campuriFile){
+                var obiectComanda= {
+                    tabel:"utilizatori",
+                    conditiiAnd: [id = `${campuriText.id_utiliz[0]}`]
+
+                }
+                AccesBD.getInstanta().delete(obiectComanda, function(err, rezQuery){
+                console.log(err);
+                res.redirect("/useri");
+            });
+        });
+    }else{
+        afisareEroare(res,403);
+    }
+    
+})
+//=======================sfarsit utilizatori==============================
+///////////////////////////////////////////////////////////////////////////////////////////////
+//////////////// Contact
+
+
+app.use(["/contact"], express.urlencoded({extended:true}));
+
+caleXMLMesaje="resurse/xml/contact.xml";
+headerXML=`<?xml version="1.0" encoding="utf-8"?>`;
+function creeazaXMlContactDacaNuExista(){
+    if (!fs.existsSync(caleXMLMesaje)){
+        let initXML={
+            "declaration":{
+                "attributes":{
+                    "version": "1.0",
+                    "encoding": "utf-8"
+                }
+            },
+            "elements": [
+                {
+                    "type": "element",
+                    "name":"contact",
+                    "elements": [
+                        {
+                            "type": "element",
+                            "name":"mesaje",
+                            "elements":[]                            
+                        }
+                    ]
+                }
+            ]
+        }
+        let sirXml=xmljs.js2xml(initXML,{compact:false, spaces:4});//obtin sirul xml (cu taguri)
+        console.log(sirXml);
+        fs.writeFileSync(caleXMLMesaje,sirXml);
+        return false; //l-a creat
+    }
+    return true; //nu l-a creat acum
+}
+
+
+function parseazaMesaje(){
+    let existaInainte=creeazaXMlContactDacaNuExista();
+    let mesajeXml=[];
+    let obJson;
+    if (existaInainte){
+        let sirXML=fs.readFileSync(caleXMLMesaje, 'utf8');
+        obJson=xmljs.xml2js(sirXML,{compact:false, spaces:4});
+        
+
+        let elementMesaje=obJson.elements[0].elements.find(function(el){
+                return el.name=="mesaje"
+            });
+        let vectElementeMesaj=elementMesaje.elements?elementMesaje.elements:[];// conditie ? val_true: val_false
+        console.log("Mesaje: ",obJson.elements[0].elements.find(function(el){
+            return el.name=="mesaje"
+        }))
+        let mesajeXml=vectElementeMesaj.filter(function(el){return el.name=="mesaj"});
+        return [obJson, elementMesaje,mesajeXml];
+    }
+    return [obJson,[],[]];
+}
+
+
+app.get("/contact", function(req, res){
+    let obJson, elementMesaje, mesajeXml;
+    [obJson, elementMesaje, mesajeXml] =parseazaMesaje();
+
+    res.render("pagini/contact",{ utilizator:req.session.utilizator, mesaje:mesajeXml})
+});
+
+app.post("/contact", function(req, res){
+    let obJson, elementMesaje, mesajeXml;
+    [obJson, elementMesaje, mesajeXml] =parseazaMesaje();
+        
+    let u= req.session.utilizator?req.session.utilizator.username:"anonim";
+    let mesajNou={
+        type:"element", 
+        name:"mesaj", 
+        attributes:{
+            username:u, 
+            data:new Date()
+        },
+        elements:[{type:"text", "text":req.body.mesaj}]
+    };
+    if(elementMesaje.elements)
+        elementMesaje.elements.push(mesajNou);
+    else 
+        elementMesaje.elements=[mesajNou];
+    console.log(elementMesaje.elements);
+    let sirXml=xmljs.js2xml(obJson,{compact:false, spaces:4});
+    console.log("XML: ",sirXml);
+    fs.writeFileSync("resurse/xml/contact.xml",sirXml);
+    
+    res.render("pagini/contact",{ utilizator:req.session.utilizator, mesaje:elementMesaje.elements})
+});
+///////////////////////////////////////////////////////
 app.get(new RegExp("^\/[A-Za-z\/0-9]*\/$"), function (req, res) {
     afisareEroare(res, 403);
 })
 app.get("/*.ejs", function (req, res) {
     afisareEroare(res, 400);
 })
-
+/////////////////////////////codErori//////////////////////////////////
 app.get("/*", function (req, res) {
     //console.log(req.url)
     try {
@@ -539,7 +974,7 @@ function initImagini(){
 }
 initImagini();
 
-//==================================================================
+//================================compileazaScss==================================
 
 function compileazaScss(caleScss, caleCss){
     console.log("cale:",caleCss);

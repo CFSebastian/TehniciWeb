@@ -8,23 +8,35 @@
                 </div>
             </div></b></h1>
             
+            
             <img src="../resurse/imagini/favicon/couch-2027234_1280.png" alt="sigla" width="160" height="100">
             <!--<button id="schimba_tema"  class="btn btn-primary btn-lg">Schimba tema <i class="bi bi-filter"></i><i class="fa-solid fa-moon "></i></button>-->
-           
+            <%- include("../fragmente/formular-login.ejs"
+            )%>
         
-           <!--<div class="form-check form-switch">
-                <input id="schimba_tema" class="form-check-input" type="checkbox" id="temaSwitch">
-                <label class="form-check-label" for="temaSwitch">
-                  <i class="fa-solid fa-sun tema-soare d-none"></i>
-                  <i class="fa-solid fa-moon tema-luna"></i>
-                </label>
-            </div>-->
+           <!--
              <div>
                 <label> <span class="bi bi-sun-fill" class="tema-soare d-none"></span></label>  
                 <div class="form-check form-switch form-check-inline">
                     <input id="schimba_tema"  class="btn btn-primary btn-toggle form-check-input form-switch" type="checkbox">
                     <label><span class="fas fa-moon" class="tema-luna"></span></label>
                 </div>
+            </div>-->
+            <div class="tema"> 
+                <label><span class="bi bi-sun-fill" class="tema-soare"></span>
+                    <input id="t_rad1" checked name="t_rad" value="light" type="radio" class="theme-inp"/>
+                </label>&nbsp;
+                <label><span class="fas fa-moon" class="tema-luna"></span>
+                    <input id="t_rad2"  name="t_rad" value="dark" type="radio" class="theme-inp"/>
+                </label>&nbsp;
+                <label>
+                    <i class="fa-brands fa-cuttlefish" class="tema-sepie"></i>
+                    <input id="t_rad3" name="t_rad" value="sepia" type="radio" class="theme-inp"/>
+                </label>&nbsp;
+                <label>
+                    <i class="fa-solid fa-snowflake" class="tema-rece"></i>
+                    <input id="t_rad4" name="t_rad" value="rece"  type="radio" class="theme-inp"/>
+                </label>&nbsp;
             </div>
             <nav>
                 <label id="hamburger" for="ch-menu">
@@ -59,7 +71,8 @@
                         </ul>
                     </li>
                     <li><a href="/inregistrare">Inregistrare</a></li>
-                    <li><a href="#">Contacte</a></li>
+                    <li><a href="/cos-virtual">Cos</a></li>
+                    <li><a href="/contact">Contacte</a></li>
                     <%- include("../fragmente/submeniu-utilizator-logat.ejs"
                 )%>
                    <%- include("../fragmente/submeniu-administrare.ejs"
