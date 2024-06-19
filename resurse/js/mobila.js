@@ -19,7 +19,6 @@ window.onload = function() {
     console.log(document.getElementById("produse").innerHTML)
 })*/
 
-
 window.addEventListener("load",function(){
 
     document.getElementById("inp-pret-min").onchange=function(){
@@ -28,12 +27,81 @@ window.addEventListener("load",function(){
     document.getElementById("inp-pret-max").onchange=function(){
         document.getElementById("infoRangeMax").innerHTML=`(${this.value})`
     }
+    var pinProd = new Set();
+    var prodRemSes = new Set();
+    var prods = this.document.querySelectorAll(".produs");
+    var categs={};
 
+    prods.forEach(function(prod){
+        var categ = prod.querySelector(".val-categorie").innerHTML;
+        var pret = parseFloat(prod.querySelector(".val-pret").innerHTML);
+
+        if((!categs[categ]) || categs[categ].pret > pret) {
+            categs[categ] = {prod, pret};
+        }
+    });
+    Object.values(categs).forEach(function({prod}){
+        prod.classList.add("ieftin");
+        let mesaj = document.createElement("div");
+        mesaj.classList.add("mesaj");
+        mesaj.textContent = "Cel mai ieftin in categoria lui";
+        prod.querySelector(".val-categorie").appendChild(mesaj);
+    });
+
+    // incarcam prodRemSes cu id-urile care sunt salvate memoria sesiunii
+    let storedRemovedProducts = JSON.parse(sessionStorage.getItem('prodSterse') || "[]");
+    storedRemovedProducts.forEach(productId => prodRemSes.add(productId));
+    
+    document.querySelectorAll(".produs").forEach(function(prod) {
+        let pId = prod.querySelector(".prod-id").innerHTML;
+        if (prodRemSes.has(pId)) {
+            prod.style.display = "none";
+        }
+    });
+
+    document.querySelectorAll(".pin").forEach(function (button) {
+        button.onclick = function() {
+            const product = button.closest(".produs");
+            const productId = product.querySelector(".prod-id").innerHTML;
+            if (pinProd.has(productId)) {
+                pinProd.delete(productId);
+                product.style.boxShadow = "";
+                button.style.color = "";
+            } else {
+                pinProd.add(productId);
+                product.style.boxShadow = "0px 0px 5px 5px blue";
+                button.style.color = "blue";
+            }
+        }
+    });
+
+    document.querySelectorAll(".sterge").forEach(function(button) {
+        button.onclick = function() {
+        const product = button.closest(".produs");
+        product.style.display = "none";
+        }
+        });
+    
+    document.querySelectorAll(".sterge-sesiune").forEach(function(button) {
+        button.onclick = function() {
+            const product = button.closest(".produs");
+            const productId = product.querySelector(".prod-id").innerHTML;
+            prodRemSes.add(productId);
+            product.style.display = "none";
+            sessionStorage.setItem('prodSterse', JSON.stringify(Array.from(prodRemSes)));
+            console.log(sessionStorage.getItem('prodSterse'));
+        }
+    });
+    
+    
+
+    
     //document.getElementById("filtrare").addEventListener("click",function(){})
     document.getElementById("filtrare").onclick=function(){
-        var inpNume=document.getElementById("inp-nume").value.toLowerCase().trim();
+        var nrProdA=0;
+        var inpNume=document.getElementById("inp-nume").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
-        var materiale=document.getElementById("materiale").value.toLowerCase().trim();
+        var materiale=document.getElementById("materiale").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
         var inpMat=materiale.split(",").map(item => item.trim());
 
         var is2=1;
@@ -67,13 +135,13 @@ window.addEventListener("load",function(){
 
         //var selOpt=Array.from(inpSelect.options).map(option => option.value.trim());
 
-        var inpStil=document.getElementById("browse-stil").value.toLowerCase().trim();
+        var inpStil=document.getElementById("browse-stil").value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
         var inpSelect=document.getElementById("tip-camera");
         var optSelect=Array.from(inpSelect).map(option => option.value)
 
         for(let produs of produse){
-            let valNume=produs.getElementsByClassName("val-nume")[0].innerHTML.toLowerCase().trim()
+            let valNume=produs.getElementsByClassName("val-nume")[0].innerHTML.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
             let cond1
             if(is2) {
                 vecN=inpNume.split("*")
@@ -85,7 +153,7 @@ window.addEventListener("load",function(){
             /*let cond1=matchPattern(nume, inputValue);*/
             //let cond1=valNume.startsWith(inpNume)
 
-            let valMats=produs.getElementsByClassName("val-materiale")[0].innerHTML.toLowerCase().trim()
+            let valMats=produs.getElementsByClassName("val-materiale")[0].innerHTML.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim()
             
             let cond5=1
             for(let mat of materiale) {
@@ -131,7 +199,7 @@ window.addEventListener("load",function(){
                         }
                 }
 
-            let valStil=produs.getElementsByClassName("val-stil")[0].innerHTML.toLowerCase().trim();
+            let valStil=produs.getElementsByClassName("val-stil")[0].innerHTML.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
 
             let cond7=(inpStil===valStil || inpStil==="toate");
 
@@ -146,21 +214,40 @@ window.addEventListener("load",function(){
                     }
 
             }
-            
+            let pId=produs.getElementsByClassName("prod-id")[0].innerHTML;
+            let pin;
+            let stergeS;
+            if(pinProd.has(pId))
+                pin=1;
+            else
+                pin=0;
 
-            if(cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8
-                
-            ){
+            let pSterse=sessionStorage.getItem("prodSterse");
+            if(/*pSterse.indexOf(pId)+1*/prodRemSes.has(pId))
+                stergeS=0
+            else
+                stergeS=1
+            
+            if((cond1 && cond2 && cond3 && cond4 && cond5 && cond6 && cond7 && cond8 || pin)
+                 && stergeS ){
                 produs.style.display="block";
+                nrProdA++;
             }
             else {
                 produs.style.display="none";
+
             }
-            
-
         }
-
+       if(nrProdA==0)
+            {
+                document.getElementById("0Prod").style.display="block";
+            }
+            else {
+                document.getElementById("0Prod").style.display="none";
+            }
     }
+    
+    
     document.getElementById("resetare").onclick= function(){
         var confirmare = confirm("Sigur doriți să resetezi filtrele?");
         if (confirmare) { 
@@ -175,7 +262,9 @@ window.addEventListener("load",function(){
             document.getElementById("infoRangeMin").innerHTML="(0)";
             document.getElementById("infoRangeMax").innerHTML="(3000)";
             for (let prod of produse){
-                prod.style.display="block";
+                let pId=prod.getElementsByClassName("prod-id")[0].innerHTML
+                if(!prodRemSes.has(pId))
+                    prod.style.display="block";
             }
             var rads=document.getElementsByName("gr_rad");
             for(let rad of rads){
@@ -190,14 +279,14 @@ window.addEventListener("load",function(){
         var produse=document.getElementsByClassName("produs");
         var v_produse=Array.from(produse)
         v_produse.sort(function(a,b){
-            let len_a=parseInt(a.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase().trim().length)
-            let len_b=parseInt(b.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase().trim().length)
-            if(len_a==len_b){
-                let nume_a=a.getElementsByClassName("val-nume")[0].innerHTML
-                let nume_b=b.getElementsByClassName("val-nume")[0].innerHTML
-                return semn*nume_a.localeCompare(nume_b);
+            let nume_a=a.getElementsByClassName("val-nume")[0].innerHTML
+            let nume_b=b.getElementsByClassName("val-nume")[0].innerHTML
+            if( nume_a.localeCompare(nume_b) == 0){
+                let len_a=parseInt(a.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase().trim().length)
+                let len_b=parseInt(b.getElementsByClassName("val-descriere")[0].innerHTML.toLowerCase().trim().length)
+                return semn*(len_a-len_b);
             }
-            return semn*(len_a-len_b);
+            return semn*nume_a.localeCompare(nume_b);
         })
         for(let prod of v_produse) {
             prod.parentNode.appendChild(prod)
@@ -222,7 +311,7 @@ window.addEventListener("load",function(){
             }
             if (!document.getElementById("par_suma")){
                 let p= document.createElement("div")
-                p.innerHTML=suma;
+                p.innerHTML=suma+" lei";
                 p.id="par_suma";
                 container=document.getElementById("produse")
                 container.insertBefore(p,container.children[0])
@@ -238,10 +327,7 @@ window.addEventListener("load",function(){
         //var regex = new RegExp(regexPattern);
         //return regex.test(str);
     //}
-    
-   
-
-})
+});
 
 /*const textMat=document.getElementById("materiale");
 textMat.addEventListener('input',function(){

@@ -94,7 +94,7 @@ p, h1,h2,h3 {
   padding-bottom: 20px;
   padding-left: 30px;
 }
-/*========================xerinta iframe buton========================*/
+/*========================cerinta iframe buton========================*/
 .container-iframe {
   display:flex;
   flex-direction: column;
@@ -116,7 +116,7 @@ p, h1,h2,h3 {
   text-decoration: none;
   display: block;
   border: 1px solid var(--culoareAccente1);
-  box-shadow: var(--culoareComplementF);
+
   box-shadow: 0px 0px 5px 5px var(--culoareComplementF) ;
   border-top-left-radius: 1em;
   border-top-right-radius: 1em;
@@ -143,7 +143,7 @@ math
 {
   display: inline-block;
   font-size: 30px; 
-  color: #333;
+  color: gray;
   font-family: Arial, sans-serif;
 }
 mtext {
@@ -173,8 +173,7 @@ mo {
   width:70%;
       border: 4px inset black;
       text-align: center;
-  /*height:20px;
-  overflow: visible;*/
+
 }
 
 h1{
@@ -203,7 +202,7 @@ h1{
       display: block !important;
       list-style-type: circle !important;
       padding-left: 100px !important;
-      background-color: red;
+      /*background-color: red;*/
      
 
   }
@@ -320,10 +319,4 @@ video {
     max-height: 70%;
     height: 30%;
   }
-}
-
-::cue {
-  background: green;
-  font-style: italic;
-  color: #ffbbbb;
 }

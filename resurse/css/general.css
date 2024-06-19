@@ -4,6 +4,7 @@ body{
   --culoareComplementF:#2297F0;
   --culoareAccente1:#49789B;
   --culoareAccente2:#706048;
+  background: rgba(255, 255, 255, 0.781);
   --dimSpatiere:120px;
   padding-left: var(--dimSpatiere);
   padding-right: var(--dimSpatiere);
@@ -17,6 +18,27 @@ body.dark{
   --culoareAccente2:#4d4231;
   background: rgba(36, 36, 36, 0.781);
   
+}
+body.sepia{
+  --culoareFundal: #FFB347;
+  --culoareFundal2: #D09C60;
+  --culoareComplementF: #339DFF;
+  --culoareAccente1: #5A91BF;
+  --culoareAccente2: #8A7054;
+  background: rgba(240, 240, 240, 0.781);
+  
+}
+body.rece{
+  --culoareFundal: #0F63DD;
+  --culoareFundal2: #4F7ABF;
+  --culoareComplementF: #DD680F;
+  --culoareAccente1: #B68764;
+  --culoareAccente2: #8F9FB7;
+  background: rgba(0, 0, 0, 0.219);
+  
+}
+.theme-inp{
+  display: none;
 }
 /*=====buton mergi sus===============*/
 #link-top{
@@ -96,7 +118,7 @@ section {
 }
 
 #tab-orar tr:nth-child(even)>td{
-  border-color: #706048;
+  border-color: var(--culoareAccente2);
   border-top-color: var(--culoareFundal2);
   border-bottom-color: var(--culoareAccente1);
   
@@ -140,7 +162,7 @@ a[href^="http"]:hover:before{
   content: "\2BB3";
   color: var(--culoareFundal2);
 }
-
+/*===========Etapa 5=============*/
 #titluU{
  
 	position:absolute;
@@ -166,6 +188,7 @@ a[href^="http"]:hover:before{
 #titlu:hover>#titluU{	
   transform:  rotateX(180deg) skew(-45deg) scaleY(0.75) translate(10px,-35px); 
 }
+
 hr {
   background-image: 
     
@@ -247,14 +270,13 @@ caption {
   content: "invalid";
 }
 
-.card {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-  
+.ieftin{
+  background-color: var(--culoareAccente2);
 
 }
-.card.show {
-  opacity: 1;
-  transform: translateY(0);
+.mesaj{
+  background-color: var(--culoareComplementF);
+  color: var(--culoareFundal);
+  border-radius: 50%;
+  
 }

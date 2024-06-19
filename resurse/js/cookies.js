@@ -34,7 +34,7 @@ window.addEventListener("load", function(){
     }
 
     this.document.getElementById("ok_cookies").onclick=function(){
-        setCookie("acceptat_banner",true,time1);
+        setCookie("acceptat_banner",true,time2);
         document.getElementById("banner").style.display="none"
     }
 
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (valNumeElements.length > 0) {
                 const valNumeElement = valNumeElements[0];
                 if (getCookie("acceptat_banner")) {
-                    setCookie("Ultimul_Produs", valNumeElement.textContent, time1);
+                    setCookie("Ultimul_Produs", valNumeElement.textContent, time2);
                 }
             } else {
                 console.log('val-nume element not found');
@@ -106,7 +106,9 @@ document.addEventListener('DOMContentLoaded', function() {
 window.onload = function() {
     if(getCookie("acceptat_banner"))
     {
-        document.getElementById("infoCookie").innerHTML=`<p >Activat <br> Ultimul Produs selectat: ${getCookie("Ultimul_Produs")}</p>`;
+        document.getElementById("infoCookie").innerHTML=`<p >Activat <br> Ultimul Produs selectat: ${getCookie("Ultimul_Produs") 
+            ? getCookie("Ultimul_Produs") : "Nu este"}
+        </p>`;
     }
     else
     {

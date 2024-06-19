@@ -1,3 +1,13 @@
+body{
+    --culoareFundal:#F09C22;
+    --culoareFundal2:#B08545;
+    --culoareComplementF:#2297F0;
+    --culoareAccente1:#49789B;
+    --culoareAccente2:#706048;
+    --dimSpatiere:120px;
+    padding-left: var(--dimSpatiere);
+    padding-right: var(--dimSpatiere);
+  }
 h2{
     padding:0.4rem;
 }
@@ -5,7 +15,7 @@ h2{
     margin:0 auto;
     width:70%;
     max-width:700px;
-    background-color: var(--cl-light-t);
+    background-color: var(--culoareAccente1);
     box-shadow: 0px 0px 10px 5px grey;
     padding:0.4rem;
 }
@@ -21,10 +31,10 @@ h2{
     font-weight: normal;
 }
 #art-produs p:nth-of-type(even){
-    background-color: var(--culoare-roz-inchis);
+    background-color: var(--culoareComplementF);
 }
 #art-produs p:nth-of-type(odd){
-    background-color: var(--cl-marcare);
+    background-color: var(--culoareFundal);
 }
 .imag-produs{
     text-align: center;

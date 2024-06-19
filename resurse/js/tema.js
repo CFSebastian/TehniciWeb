@@ -1,4 +1,4 @@
-
+/*
 let tema=localStorage.getItem("tema");
 if(tema)
     document.body.classList.add("dark");
@@ -17,6 +17,20 @@ document.getElementById("schimba_tema").onclick= function(){
     }
 }
 });
+*/
+document.addEventListener('DOMContentLoaded', function(event) {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.className = savedTheme;
 
-
+    document.querySelectorAll('input[name="t_rad"]').forEach(function(input)  {
+        input.addEventListener('change', function() {
+            document.body.className = this.value;
+            localStorage.setItem('theme', this.value);
+        });
+        document.get
+        if (input.value == savedTheme) {
+            input.checked = true;
+        }
+    });
+});
 

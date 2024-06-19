@@ -6,6 +6,7 @@ body{
     --culoareAccente2:#706048;
     --culoare-text:black;
     --culoare-text-selectat:white;
+    --menuShadow: rgba(201, 187, 187, 0.25);
 }
 
 nav{
@@ -100,7 +101,7 @@ nav{
     transform-origin:center;
     width: 0;
     height: 0;
-    background-color: rgba(201, 187, 187, 0.25);
+    background-color: var(--menuShadow);
     animation: grow 0.5s linear 1 forwards;
   }
 
